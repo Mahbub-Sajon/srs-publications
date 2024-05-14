@@ -1,98 +1,98 @@
 [
   {
     "_id": 1,
-    "image": "image1.jpg",
-    "title": "Product 1",
-    "category": "Category A",
-    "quantity": "10",
-    "description": "Description for Product 1"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsW9vWI0uieY0Heok_K66L3de-lMHQFf9bram7pAeIuA&s",
+    "title": "The Great Gatsby",
+    "category": "Fiction",
+    "quantity": 50,
+    "description": "A classic novel set in the Jazz Age, exploring themes of wealth, love, and the American Dream through the eyes of narrator Nick Carraway."
   },
   {
     "_id": 2,
-    "image": "image2.jpg",
-    "title": "Product 2",
-    "category": "Category B",
-    "quantity": "15",
-    "description": "Description for Product 2"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZCUrfLvgMrZXyBeTSQnNh11O8ka18tfAK-NmRxDGb4A&s",
+    "title": "To Kill a Mockingbird",
+    "category": "Classic Literature",
+    "quantity": 40,
+    "description": "Harper Lee's masterpiece addressing racial injustice in the Deep South, told through the perspective of young Scout Finch."
   },
   {
     "_id": 3,
-    "image": "image3.jpg",
-    "title": "Product 3",
-    "category": "Category C",
-    "quantity": "20",
-    "description": "Description for Product 3"
+    "image": "https://womensprize.com/app/uploads/2024/01/Dystopian-Novels.jpg",
+    "title": "1984",
+    "category": "Dystopian Fiction",
+    "quantity": 30,
+    "description": "George Orwell's dystopian vision of a totalitarian society, where Big Brother surveils every aspect of citizens' lives."
   },
   {
     "_id": 4,
-    "image": "image4.jpg",
-    "title": "Product 4",
-    "category": "Category A",
-    "quantity": "12",
-    "description": "Description for Product 4"
+    "image": "https://readaloudrevival.com/wp-content/uploads/2016/05/Pride-and-Prejudice.png.webp",
+    "title": "Pride and Prejudice",
+    "category": "Classic Literature",
+    "quantity": 45,
+    "description": "Jane Austen's timeless romance exploring themes of social class, marriage, and personal growth in Regency-era England."
   },
   {
     "_id": 5,
-    "image": "image5.jpg",
-    "title": "Product 5",
-    "category": "Category B",
-    "quantity": "18",
-    "description": "Description for Product 5"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/The_Catcher_in_the_Rye_%281951%2C_first_edition_cover%29.jpg/640px-The_Catcher_in_the_Rye_%281951%2C_first_edition_cover%29.jpg",
+    "title": "The Catcher in the Rye",
+    "category": "Coming-of-Age Fiction",
+    "quantity": 35,
+    "description": "J.D. Salinger's iconic novel following disaffected teenager Holden Caulfield as he navigates adolescence and societal expectations."
   },
   {
     "_id": 6,
-    "image": "image6.jpg",
-    "title": "Product 6",
-    "category": "Category C",
-    "quantity": "25",
-    "description": "Description for Product 6"
+    "image": "https://www.pluggedin.com/wp-content/uploads/2020/01/hobbit-cover-670x1024.jpg",
+    "title": "The Hobbit",
+    "category": "Fantasy",
+    "quantity": 25,
+    "description": "J.R.R. Tolkien's beloved tale of hobbit Bilbo Baggins' unexpected adventure to reclaim treasure guarded by the dragon Smaug."
   },
   {
     "_id": 7,
-    "image": "image7.jpg",
-    "title": "Product 7",
-    "category": "Category A",
-    "quantity": "8",
-    "description": "Description for Product 7"
+    "image": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
+    "title": "The Lord of the Rings",
+    "category": "Fantasy",
+    "quantity": 20,
+    "description": "Tolkien's epic trilogy chronicling the quest to destroy the One Ring and defeat the dark lord Sauron, set in the world of Middle-earth."
   },
   {
     "_id": 8,
-    "image": "image8.jpg",
-    "title": "Product 8",
-    "category": "Category B",
-    "quantity": "14",
-    "description": "Description for Product 8"
+    "image": "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781681778488/moby-dick-9781681778488_hr.jpg",
+    "title": "Moby-Dick",
+    "category": "Adventure",
+    "quantity": 30,
+    "description": "Herman Melville's literary masterpiece exploring themes of obsession, revenge, and the human condition through the journey of Captain Ahab."
   },
   {
     "_id": 9,
-    "image": "image9.jpg",
-    "title": "Product 9",
-    "category": "Category C",
-    "quantity": "30",
-    "description": "Description for Product 9"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi7ByaMNzFV-HL6zqLJr0tsMNO8YnXDA_Xg2ezF0OWIw&s",
+    "title": "The Great Expectations",
+    "category": "Classic Literature",
+    "quantity": 40,
+    "description": "Charles Dickens' novel follows the journey of orphan Pip, exploring themes of ambition, identity, and social class in Victorian England."
   },
   {
     "_id": 10,
-    "image": "image10.jpg",
-    "title": "Product 10",
-    "category": "Category A",
-    "quantity": "22",
-    "description": "Description for Product 10"
+    "image": "https://d15fwz9jg1iq5f.cloudfront.net/wp-content/uploads/2022/03/17112720/765x530-4-1.png",
+    "title": "Jane Eyre",
+    "category": "Gothic Fiction",
+    "quantity": 35,
+    "description": "Charlotte Brontë's classic novel follows the life of governess Jane Eyre, exploring themes of love, independence, and morality."
   },
   {
     "_id": 11,
-    "image": "image11.jpg",
-    "title": "Product 11",
-    "category": "Category B",
-    "quantity": "17",
-    "description": "Description for Product 11"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB0pagG_Sn7nJfb9eTLXlmv4VB1Xa1HAi3W5tI5hICHQ&s",
+    "title": "The Alchemist",
+    "category": "Philosophical Fiction",
+    "quantity": 25,
+    "description": "Paulo Coelho's allegorical novel follows Santiago, a shepherd boy, on his journey to fulfill his personal legend and discover the meaning of life."
   },
   {
     "_id": 12,
-    "image": "image12.jpg",
-    "title": "Product 12",
-    "category": "Category C",
-    "quantity": "28",
-    "description": "Description for Product 12"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9xWB61NcmAt4MfvZ2AyZXcYzljAF7vjjlKESbD9pwlg&s",
+    "title": "The Hunger Games",
+    "category": "Young Adult Fiction",
+    "quantity": 30,
+    "description": "Suzanne Collins' dystopian trilogy follows protagonist Katniss Everdeen as she navigates a brutal government-sponsored competition and leads a rebellion against tyranny."
   }
 ]
