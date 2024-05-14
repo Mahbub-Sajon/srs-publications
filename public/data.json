@@ -1,0 +1,98 @@
+[
+  {
+    "_id": 1,
+    "image": "image1.jpg",
+    "title": "Product 1",
+    "category": "Category A",
+    "quantity": "10",
+    "description": "Description for Product 1"
+  },
+  {
+    "_id": 2,
+    "image": "image2.jpg",
+    "title": "Product 2",
+    "category": "Category B",
+    "quantity": "15",
+    "description": "Description for Product 2"
+  },
+  {
+    "_id": 3,
+    "image": "image3.jpg",
+    "title": "Product 3",
+    "category": "Category C",
+    "quantity": "20",
+    "description": "Description for Product 3"
+  },
+  {
+    "_id": 4,
+    "image": "image4.jpg",
+    "title": "Product 4",
+    "category": "Category A",
+    "quantity": "12",
+    "description": "Description for Product 4"
+  },
+  {
+    "_id": 5,
+    "image": "image5.jpg",
+    "title": "Product 5",
+    "category": "Category B",
+    "quantity": "18",
+    "description": "Description for Product 5"
+  },
+  {
+    "_id": 6,
+    "image": "image6.jpg",
+    "title": "Product 6",
+    "category": "Category C",
+    "quantity": "25",
+    "description": "Description for Product 6"
+  },
+  {
+    "_id": 7,
+    "image": "image7.jpg",
+    "title": "Product 7",
+    "category": "Category A",
+    "quantity": "8",
+    "description": "Description for Product 7"
+  },
+  {
+    "_id": 8,
+    "image": "image8.jpg",
+    "title": "Product 8",
+    "category": "Category B",
+    "quantity": "14",
+    "description": "Description for Product 8"
+  },
+  {
+    "_id": 9,
+    "image": "image9.jpg",
+    "title": "Product 9",
+    "category": "Category C",
+    "quantity": "30",
+    "description": "Description for Product 9"
+  },
+  {
+    "_id": 10,
+    "image": "image10.jpg",
+    "title": "Product 10",
+    "category": "Category A",
+    "quantity": "22",
+    "description": "Description for Product 10"
+  },
+  {
+    "_id": 11,
+    "image": "image11.jpg",
+    "title": "Product 11",
+    "category": "Category B",
+    "quantity": "17",
+    "description": "Description for Product 11"
+  },
+  {
+    "_id": 12,
+    "image": "image12.jpg",
+    "title": "Product 12",
+    "category": "Category C",
+    "quantity": "28",
+    "description": "Description for Product 12"
+  }
+]
