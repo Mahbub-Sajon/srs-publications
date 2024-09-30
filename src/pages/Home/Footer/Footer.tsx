@@ -4,9 +4,9 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <Container className="bg-secondary py-5 mt-10">
+    <Container className="bg-[#000] py-5 mt-10">
       <p className="text-center text-white">
-        Copyright © Nutrition-Net {year}. All rights reserved.
+        Copyright © SRS-Publications {year}. All rights reserved.
       </p>
     </Container>
   );
