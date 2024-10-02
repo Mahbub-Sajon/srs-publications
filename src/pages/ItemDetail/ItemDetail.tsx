@@ -11,21 +11,24 @@ type Item = {
 };
 
 const ItemDetail = () => {
-  const { id } = useParams<{ id: string }>(); // Extract the ID parameter from the URL
+  const { _id } = useParams<{ _id: string }>(); // Extract the ID parameter from the URL
   const [item, setItem] = useState<Item | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("data.json");
+        const response = await fetch("data.json"); // Make sure this path is correct
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const result: Item[] = await response.json();
 
-        // Find the item with the matching ID
-        const selectedItem = result.find((item) => item._id === id);
+        const selectedItem = result.find((item) => item._id === _id);
         if (selectedItem) {
+          console.log("Item", selectedItem);
           setItem(selectedItem);
         } else {
-          console.log(`Item with ID ${id} not found`);
+          console.log(`Item with ID ${_id} not found`);
         }
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -33,7 +36,7 @@ const ItemDetail = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [_id]);
 
   return (
     <div>

@@ -1,12 +1,28 @@
-import { Link } from "react-router-dom";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    signIn(email, password)
+      .then((userData) => {
+        const user = userData.user;
+        console.log("Logged in user:", user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.error("Error during sign-in:", error.message);
+      });
   };
   return (
     <div className="w-2/3 border-2 shadow-lg rounded-md mx-auto mt-36 text-center">

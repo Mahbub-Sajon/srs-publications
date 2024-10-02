@@ -1,5 +1,11 @@
+import Admin from "./Admin/Admin";
+
 const Dashboard = () => {
-  return <div></div>;
+  return (
+    <div>
+      <Admin />
+    </div>
+  );
 };
 
 export default Dashboard;
