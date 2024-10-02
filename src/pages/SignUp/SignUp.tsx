@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import { UserCredential } from "firebase/auth"; // Import UserCredential for Firebase type
+import axios from "axios"; // Import axios for HTTP requests
 
 type FormData = {
   name: string;
@@ -21,19 +22,23 @@ const SignUp = () => {
   const { createUser } = useContext(AuthContext);
   const navigate = useNavigate(); // Hook to navigate after signup
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log(data);
-    createUser(data.email, data.password)
-      .then((result: UserCredential) => {
-        // Explicit type for `result`
-        const loggedUser = result.user;
-        console.log(loggedUser);
-        navigate("/"); // Redirect to home page after successful signup
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .catch((error: any) => {
-        console.error("Error creating user:", error);
+    try {
+      const result = await createUser(data.email, data.password);
+      const loggedUser = result.user;
+      console.log(loggedUser);
+
+      // Save user data to the database
+      await axios.post("http://localhost:5000/api/users", {
+        name: data.name,
+        email: data.email,
       });
+
+      navigate("/"); // Redirect to home page after successful signup
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
   };
 
   return (
@@ -138,19 +143,16 @@ const SignUp = () => {
 
         {/* Submit Button */}
         <input
-          className="w-32 h-12 bg-primary rounded-md mb-4 font-bold hover:bg-primary-foreground cursor-pointer text-white"
+          className="w-32 h-12 bg-primary rounded-md mb-4 font-bold text-white hover:bg-opacity-70"
           type="submit"
-          value="Sign up"
+          value="Sign Up"
         />
       </form>
 
-      <p className="mb-4 text-xl">
+      <p className="mb-4">
         Already have an account?{" "}
-        <Link
-          className="text-primary hover:text-primary-foreground"
-          to="/login"
-        >
-          Login
+        <Link to="/login" className="text-primary font-bold">
+          Log In
         </Link>
       </p>
     </div>

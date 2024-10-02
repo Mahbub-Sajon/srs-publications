@@ -10,7 +10,7 @@ import {
 import app from "@/firebase/firebase.config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const AuthContext = createContext<any>(null); // You can define a more specific type if needed.
+export const AuthContext = createContext<any>(null);
 const auth = getAuth(app);
 
 interface AuthProviderProps {
@@ -18,8 +18,9 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null); // Define the type explicitly for user
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [cartItems, setCartItems] = useState<Item[]>([]); // Cart items state
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -31,27 +32,36 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // Modify the logOut function to clear cart items on logout
   const logOut = () => {
     setLoading(true);
+    setCartItems([]); // Clear the cart when the user logs out
     return signOut(auth);
   };
+
+  // Add item to cart
+  const addToCart = (item: Item) => {
+    setCartItems((prevCartItems) => [...prevCartItems, item]);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser); // TypeScript now understands currentUser can be User or null
-      console.log("current User", currentUser);
+      setUser(currentUser);
       setLoading(false);
     });
     return () => {
-      unsubscribe(); // Properly unsubscribe the listener
+      unsubscribe();
     };
   }, []);
 
   const authInfo = {
     user,
     loading,
+    cartItems,
+    addToCart,
     createUser,
     signIn,
-    logOut,
+    logOut, // Provide logOut function
   };
 
   return (

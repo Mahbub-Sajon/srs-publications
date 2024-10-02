@@ -17,7 +17,7 @@ const AllSupplies = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("data.json");
+        const response = await fetch("http://localhost:5000/products");
         const result = await response.json();
         setItems(result);
       } catch (error) {
@@ -40,7 +40,7 @@ const AllSupplies = () => {
   return (
     <Container>
       <h1 className="mt-28 text-4xl font-bold text-center my-5">
-        Supplied Items
+        All Collections
       </h1>
       <div className="grid md:grid-cols-3 mb-10 gap-6 mx-auto">
         {items.map((item: Item) => (

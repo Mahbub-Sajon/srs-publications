@@ -8,6 +8,7 @@ import ItemDetail from "@/pages/ItemDetail/ItemDetail";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Admin from "@/pages/dashboard/Admin/Admin";
 import PrivateRoutes from "./PrivateRoutes";
+import Cart from "@/pages/Cart/Cart";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/item/:_id",
         element: <ItemDetail />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

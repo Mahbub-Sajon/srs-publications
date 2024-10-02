@@ -3,6 +3,7 @@ import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 // import { useGetSuppliesQuery } from "@/redux/api/api";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 interface Item {
   _id: string;
   image: string;
@@ -18,7 +19,7 @@ const SupplyItemCards = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("data.json");
+        const response = await fetch("http://localhost:5000/products");
         const result = await response.json();
         setItems(result);
       } catch (error) {
@@ -40,14 +41,16 @@ const SupplyItemCards = () => {
 
   return (
     <Container>
-      <h1 className="text-4xl font-bold text-center my-5">Supplied Items</h1>
+      <h1 className="text-4xl font-bold text-center my-5">Our Collection</h1>
       <div className="grid md:grid-cols-3 mb-10 gap-6 mx-auto">
         {items.slice(0, 6).map((item: Item) => (
           <SupplyItemCard key={item._id} item={item} />
         ))}
       </div>
       <div className="text-center mb-10">
-        <Button>View All</Button>
+        <NavLink to="/all-supplies">
+          <Button>View All</Button>
+        </NavLink>
       </div>
     </Container>
   );
