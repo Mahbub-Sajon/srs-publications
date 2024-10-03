@@ -13,6 +13,7 @@ const MainNavbar = () => {
       .then(() => {
         console.log("User logged out and cart cleared");
       })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .catch((error: any) => console.log(error));
   };
 

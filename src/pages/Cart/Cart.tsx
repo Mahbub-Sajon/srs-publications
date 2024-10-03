@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import PlaceOrderModal from "../ItemDetail/PlaceOrderModal";
+import { Button } from "@/components/ui/button";
 
 interface CartItem {
   _id: string; // Unique ID for the cart entry
@@ -22,7 +22,8 @@ interface CartItem {
 const Cart = () => {
   const { user } = useContext(AuthContext);
   const [userCartItems, setUserCartItems] = useState<CartItem[]>([]);
-  const navigate = useNavigate();
+  const [selectedCartItem, setSelectedCartItem] = useState<CartItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -40,6 +41,16 @@ const Cart = () => {
 
     fetchCartItems();
   }, [user]);
+
+  const handleOpenModal = (cartItem: CartItem) => {
+    setSelectedCartItem(cartItem);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCartItem(null);
+  };
 
   return (
     <div className="p-5">
@@ -68,8 +79,8 @@ const Cart = () => {
                 Total Price: ${cartItem.item.price * cartItem.item.quantity}
               </p>
               <Button
-                className="mt-3 bg-green-500 text-white"
-                onClick={() => navigate(`/payment/${cartItem._id}`)}
+                className="my-2"
+                onClick={() => handleOpenModal(cartItem)}
               >
                 Place Order
               </Button>
@@ -79,6 +90,15 @@ const Cart = () => {
           <p className="text-lg">Your cart is empty.</p>
         )}
       </div>
+
+      {/* Conditionally render the modal */}
+      {selectedCartItem && (
+        <PlaceOrderModal
+          cartItem={selectedCartItem}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };
