@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 interface CartItem {
   _id: string;
@@ -30,14 +29,17 @@ interface PlaceOrderModalProps {
   onClose: () => void;
 }
 
-const PlaceOrderModal = ({ cartItem, isOpen, onClose }: PlaceOrderModalProps) => {
+const PlaceOrderModal = ({
+  cartItem,
+  isOpen,
+  onClose,
+}: PlaceOrderModalProps) => {
   const { user } = useContext(AuthContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [totalPrice, setTotalPrice] = useState(
     cartItem.item.price * cartItem.item.quantity
   );
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!address || !phone) {
@@ -47,7 +49,7 @@ const PlaceOrderModal = ({ cartItem, isOpen, onClose }: PlaceOrderModalProps) =>
 
     try {
       const orderData = {
-        userId: user.uid,
+        userId: user.uid, // Ensure user has uid from AuthContext
         items: [
           {
             productId: cartItem.item._id,
@@ -62,8 +64,25 @@ const PlaceOrderModal = ({ cartItem, isOpen, onClose }: PlaceOrderModalProps) =>
         createdAt: new Date(),
       };
 
+      // Save the order in your database first
       await axios.post("http://localhost:5000/api/orders", orderData);
-      navigate("/payment");
+
+      // Create a payment and get the payment URL
+      const paymentResponse = await axios.post(
+        "http://localhost:5000/create-payment",
+        {
+          amount: totalPrice, // Ensure this matches the price to be paid
+          currency: "USD", // You can change currency if needed
+        }
+      );
+
+      // Redirect the user to the payment gateway page
+      const paymentUrl = paymentResponse.data.GatewayPageUrl;
+      if (paymentUrl) {
+        window.location.href = paymentUrl; // Redirect to the payment page
+      } else {
+        console.error("Payment URL not found");
+      }
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -110,7 +129,7 @@ const PlaceOrderModal = ({ cartItem, isOpen, onClose }: PlaceOrderModalProps) =>
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="button" onClick={handleSubmit}>
             Proceed to Payment
           </Button>
         </DialogFooter>
