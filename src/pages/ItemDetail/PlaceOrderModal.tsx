@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import axios from "axios";
 
@@ -37,9 +37,24 @@ const PlaceOrderModal = ({
   const { user } = useContext(AuthContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [quantity, setQuantity] = useState(cartItem.item.quantity); // Track quantity state
   const [totalPrice, setTotalPrice] = useState(
     cartItem.item.price * cartItem.item.quantity
   );
+
+  // Function to handle quantity change
+  const handleQuantityChange = (action: "increase" | "decrease") => {
+    if (action === "increase") {
+      setQuantity((prevQuantity) => prevQuantity + 1);
+    } else if (action === "decrease" && quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
+
+  // Recalculate total price whenever quantity changes
+  useEffect(() => {
+    setTotalPrice(quantity * cartItem.item.price);
+  }, [quantity, cartItem.item.price]); // This useEffect runs whenever `quantity` or `price` changes
 
   const handleSubmit = async () => {
     if (!address || !phone) {
@@ -48,20 +63,22 @@ const PlaceOrderModal = ({
     }
 
     try {
+      // Create the orderData object with all relevant information
       const orderData = {
-        userId: user.uid, // Ensure user has uid from AuthContext
+        userId: user.uid, // User ID from AuthContext
+        userName: user.displayName || "Guest", // User name, default to 'Guest' if not available
         items: [
           {
             productId: cartItem.item._id,
-            title: cartItem.item.title,
-            quantity: cartItem.item.quantity,
+            title: cartItem.item.title, // Product name (title)
+            quantity: quantity, // Use updated quantity
             price: cartItem.item.price,
           },
         ],
-        address,
-        phone,
-        totalPrice,
-        createdAt: new Date(),
+        address, // User-provided address
+        phone, // User-provided phone number
+        totalPrice, // Total price calculated based on quantity and price
+        createdAt: new Date(), // Current timestamp
       };
 
       // Save the order in your database first
@@ -71,8 +88,7 @@ const PlaceOrderModal = ({
       const paymentResponse = await axios.post(
         "http://localhost:5000/create-payment",
         {
-          amount: totalPrice, // Ensure this matches the price to be paid
-          currency: "USD", // You can change currency if needed
+          orderData,
         }
       );
 
@@ -100,12 +116,30 @@ const PlaceOrderModal = ({
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 gap-4">
             <Label className="col-span-1">{cartItem.item.title}</Label>
-            <p className="col-span-2">Quantity: {cartItem.item.quantity}</p>
-            <p className="col-span-1">${totalPrice}</p>
+            <div className="col-span-2 flex items-center space-x-2">
+              {/* Quantity Decrease Button */}
+              <Button
+                variant="outline"
+                onClick={() => handleQuantityChange("decrease")}
+                disabled={quantity <= 1} // Disable when quantity is 1
+              >
+                -
+              </Button>
+              {/* Display Quantity */}
+              <p>{quantity}</p>
+              {/* Quantity Increase Button */}
+              <Button
+                variant="outline"
+                onClick={() => handleQuantityChange("increase")}
+              >
+                +
+              </Button>
+            </div>
+            <p className="col-span-1">${totalPrice.toFixed(2)}</p>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>Total Price</Label>
-            <p className="col-span-3">${totalPrice}</p>
+            <p className="col-span-3">${totalPrice.toFixed(2)}</p>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="address">Address</Label>
