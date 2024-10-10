@@ -52,9 +52,29 @@ const Cart = () => {
     setSelectedCartItem(null);
   };
 
+  const handleClearCart = async () => {
+    if (user) {
+      try {
+        await axios.delete(`http://localhost:5000/cart/${user.uid}`);
+        setUserCartItems([]); // Clear cart state after successful deletion
+      } catch (error) {
+        console.error("Error clearing cart:", error);
+      }
+    }
+  };
+
   return (
     <div className="p-5">
       <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
+      <div className="flex justify-between items-center mb-4">
+        <Button
+          className="bg-red-500 text-white hover:bg-red-600"
+          onClick={handleClearCart}
+          disabled={userCartItems.length === 0}
+        >
+          Clear Cart
+        </Button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {userCartItems.length > 0 ? (
           userCartItems.map((cartItem) => (

@@ -9,6 +9,9 @@ import Dashboard from "@/pages/dashboard/Dashboard";
 import Admin from "@/pages/dashboard/Admin/Admin";
 import PrivateRoutes from "./PrivateRoutes";
 import Cart from "@/pages/Cart/Cart";
+import Success from "@/pages/payment/Success";
+import Fail from "@/pages/payment/Fail";
+import Cancel from "@/pages/payment/Cancel";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,18 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
+      },
+      {
+        path: "/fail",
+        element: <Fail />,
+      },
+      {
+        path: "/cancel",
+        element: <Cancel />,
       },
     ],
   },
