@@ -38,9 +38,12 @@ const PlaceOrderModal = ({
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [quantity, setQuantity] = useState(cartItem.item.quantity); // Track quantity state
-  const [totalPrice, setTotalPrice] = useState(
-    cartItem.item.price * cartItem.item.quantity
-  );
+
+  const originalPrice = cartItem.item.price * cartItem.item.quantity;
+  const [totalPrice, setTotalPrice] = useState(originalPrice);
+
+  // Apply 15% discount to the total price
+  const discountedPrice = totalPrice * 0.85;
 
   // Function to handle quantity change
   const handleQuantityChange = (action: "increase" | "decrease") => {
@@ -53,8 +56,9 @@ const PlaceOrderModal = ({
 
   // Recalculate total price whenever quantity changes
   useEffect(() => {
-    setTotalPrice(quantity * cartItem.item.price);
-  }, [quantity, cartItem.item.price]); // This useEffect runs whenever `quantity` or `price` changes
+    const newTotalPrice = quantity * cartItem.item.price;
+    setTotalPrice(newTotalPrice);
+  }, [quantity, cartItem.item.price]);
 
   const handleSubmit = async () => {
     if (!address || !phone) {
@@ -77,7 +81,7 @@ const PlaceOrderModal = ({
         ],
         address, // User-provided address
         phone, // User-provided phone number
-        totalPrice, // Total price calculated based on quantity and price
+        totalPrice: discountedPrice, // Use discounted price
         createdAt: new Date(), // Current timestamp
       };
 
@@ -135,11 +139,21 @@ const PlaceOrderModal = ({
                 +
               </Button>
             </div>
-            <p className="col-span-1">${totalPrice.toFixed(2)}</p>
+            <p className="col-span-1">${discountedPrice.toFixed(2)}</p>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label>Total Price</Label>
-            <p className="col-span-3">${totalPrice.toFixed(2)}</p>
+            <Label>Original Price</Label>
+            {/* Crossed-out original price */}
+            <p className="col-span-3 line-through text-gray-500">
+              ${originalPrice.toFixed(2)}
+            </p>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label>Discounted Price</Label>
+            <p className="col-span-3">
+              ${discountedPrice.toFixed(2)}{" "}
+              <span className="text-green-500">(15% discount)</span>
+            </p>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="address">Address</Label>
