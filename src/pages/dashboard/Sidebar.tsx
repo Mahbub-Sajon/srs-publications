@@ -1,7 +1,29 @@
+import { AuthContext } from "@/providers/AuthProvider";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const isAdmin = true;
+  const { user } = useContext(AuthContext);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (user) {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/users/admin/${user.email}`
+          ); // Your API endpoint
+          const data = await response.json();
+          setIsAdmin(data.isAdmin);
+        } catch (error) {
+          console.error("Error fetching admin status:", error);
+        }
+      }
+    };
+
+    checkAdminStatus();
+  }, [user]);
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Sidebar */}

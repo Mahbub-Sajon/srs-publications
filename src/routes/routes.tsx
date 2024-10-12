@@ -14,6 +14,8 @@ import Fail from "@/pages/payment/Fail";
 import Cancel from "@/pages/payment/Cancel";
 import AllUsers from "@/pages/dashboard/AllUsers";
 import AddProducts from "@/pages/dashboard/Admin/AddProducts";
+import Profile from "@/pages/dashboard/User/Profile";
+import MyOrders from "@/pages/dashboard/User/MyOrders";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +79,14 @@ const router = createBrowserRouter([
       {
         path: "add-products",
         element: <AddProducts />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "my-orders",
+        element: <MyOrders />,
       },
     ],
   },
