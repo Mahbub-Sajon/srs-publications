@@ -1,29 +1,42 @@
 import { AuthContext } from "@/providers/AuthProvider";
-import { useContext } from "react";
+import { useContext, FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { User } from "firebase/auth"; // Import the User type
+
+interface Error {
+  message: string;
+}
 
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
+
+    if (!authContext) {
+      console.error("AuthContext is not available");
+      return;
+    }
+
+    const { signIn } = authContext; // Destructure signIn from authContext
+    const form = e.target as HTMLFormElement;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+
     signIn(email, password)
-      .then((userData) => {
-        const user = userData.user;
+      .then((user: User) => {
         console.log("Logged in user:", user);
         navigate(from, { replace: true });
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error("Error during sign-in:", error.message);
       });
   };
+
   return (
     <div className="w-2/3 border-2 shadow-lg rounded-md mx-auto mt-36 text-center">
       <h1 className="text-3xl font-bold mb-4">Login</h1>
@@ -67,7 +80,6 @@ const Login = () => {
           className="text-primary hover:text-primary-foreground"
           to="/sign-up"
         >
-          {" "}
           Create an account
         </Link>
       </p>
@@ -78,7 +90,6 @@ const Login = () => {
           className="text-primary hover:text-primary-foreground"
           to="/login"
         >
-          {" "}
           Reset Password
         </Link>
       </p>

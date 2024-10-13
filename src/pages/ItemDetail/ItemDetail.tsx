@@ -16,13 +16,16 @@ type Item = {
 const ItemDetail = () => {
   const { _id } = useParams<{ _id: string }>(); // Extract the ID parameter from the URL
   const [item, setItem] = useState<Item | null>(null);
-  const { user, addToCart } = useContext(AuthContext); // Access user and addToCart from AuthContext
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { user, addToCart }: any = useContext(AuthContext); // Access user and addToCart from AuthContext
   const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/products");
+        const response = await fetch(
+          "https://srs-publications-server.vercel.app/products"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -64,13 +67,16 @@ const ItemDetail = () => {
 
       // Send the cart item data to the backend
       try {
-        const response = await fetch("http://localhost:5000/api/cart", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(cartItemData),
-        });
+        const response = await fetch(
+          "https://srs-publications-server.vercel.app/api/cart",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(cartItemData),
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

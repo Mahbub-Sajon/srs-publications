@@ -20,9 +20,12 @@ interface CartItem {
 }
 
 const Cart = () => {
-  const { user } = useContext(AuthContext);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { user }: any = useContext(AuthContext);
   const [userCartItems, setUserCartItems] = useState<CartItem[]>([]);
-  const [selectedCartItem, setSelectedCartItem] = useState<CartItem | null>(null);
+  const [selectedCartItem, setSelectedCartItem] = useState<CartItem | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const Cart = () => {
       if (user) {
         try {
           const response = await axios.get<CartItem[]>(
-            `http://localhost:5000/cart/${user.uid}`
+            `https://srs-publications-server.vercel.app/cart/${user.uid}`
           );
           setUserCartItems(response.data);
         } catch (error) {
@@ -55,7 +58,9 @@ const Cart = () => {
   const handleClearCart = async () => {
     if (user) {
       try {
-        await axios.delete(`http://localhost:5000/cart/${user.uid}`);
+        await axios.delete(
+          `https://srs-publications-server.vercel.app/cart/${user.uid}`
+        );
         setUserCartItems([]); // Clear cart state after successful deletion
       } catch (error) {
         console.error("Error clearing cart:", error);

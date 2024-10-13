@@ -2,19 +2,30 @@ import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import logo from "../../assets/logo/logo.png";
 import { AuthContext } from "@/providers/AuthProvider"; // Import AuthContext
-import { useContext } from "react";
-import { BsCartPlus } from "react-icons/bs";
+import { useContext, useState } from "react";
+import { BsCartPlus, BsList } from "react-icons/bs";
 
 const MainNavbar = () => {
-  const { user, logOut, cartItems } = useContext(AuthContext); // Get cartItems and logOut
+  const authContext = useContext(AuthContext); // Get AuthContext
+  const user = authContext?.user;
+  const logOut = authContext?.logOut;
+  const cartItems = authContext?.cartItems || []; // Ensure cartItems is an empty array if undefined
 
   const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        console.log("User logged out and cart cleared");
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .catch((error: any) => console.log(error));
+    if (logOut) {
+      logOut()
+        .then(() => {
+          console.log("User logged out and cart cleared");
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+  // State for mobile menu toggle
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   return (
@@ -30,21 +41,49 @@ const MainNavbar = () => {
             <span className="text-primary">SRS</span> Publications
           </p>
         </div>
-        <ul className="flex space-x-5 items-center">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/all-supplies">All Collections</NavLink>
-          <NavLink to="/cart">
+
+        {/* Hamburger icon for mobile menu */}
+        <div className="md:hidden flex items-center" onClick={toggleMenu}>
+          <BsList size={24} />
+        </div>
+
+        {/* Menu Items */}
+        <ul
+          className={`flex-col md:flex md:flex-row md:space-x-5 absolute md:relative bg-[#dadada] md:bg-transparent w-full md:w-auto left-0 top-full transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "flex" : "hidden"
+          } md:flex md:items-center`}
+        >
+          <NavLink to="/" className="py-2 px-4 hover:bg-gray-300 rounded-md">
+            Home
+          </NavLink>
+          <NavLink
+            to="/all-supplies"
+            className="py-2 px-4 hover:bg-gray-300 rounded-md"
+          >
+            All Collections
+          </NavLink>
+          <NavLink
+            to="/cart"
+            className="py-2 px-4 hover:bg-gray-300 rounded-md"
+          >
             <div className="flex items-center">
               <BsCartPlus />
               <span className="ml-2">+{cartItems.length}</span>{" "}
               {/* Display cart count */}
             </div>
           </NavLink>
-          <NavLink to="/dashboard">Dashboard</NavLink>
+          <NavLink
+            to="/dashboard"
+            className="py-2 px-4 hover:bg-gray-300 rounded-md"
+          >
+            Dashboard
+          </NavLink>
           {user ? (
-            <Button onClick={handleLogOut}>Logout</Button>
+            <Button onClick={handleLogOut} className="py-2 px-4 rounded-md">
+              Logout
+            </Button>
           ) : (
-            <Button>
+            <Button className="py-2 px-4 rounded-md">
               <NavLink to="/login">Login</NavLink>
             </Button>
           )}

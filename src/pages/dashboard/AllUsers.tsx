@@ -15,7 +15,9 @@ const AllUsers: React.FC = () => {
   // Fetch all users
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users"); // API endpoint for getting all users
+      const response = await axios.get(
+        "https://srs-publications-server.vercel.app/api/users"
+      ); // API endpoint for getting all users
       const data = response.data;
 
       // Ensure the response data is an array
@@ -35,7 +37,9 @@ const AllUsers: React.FC = () => {
   // Make Admin
   const makeAdmin = async (id: string) => {
     try {
-      await axios.patch(`http://localhost:5000/users/admin/${id}`); // API endpoint to make a user admin
+      await axios.patch(
+        `https://srs-publications-server.vercel.app/users/admin/${id}`
+      ); // API endpoint to make a user admin
       alert("User made admin successfully");
       fetchUsers(); // Refresh the list after updating
     } catch (error) {
@@ -47,7 +51,9 @@ const AllUsers: React.FC = () => {
   const deleteUser = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/users/${id}`); // API endpoint to delete a user
+        await axios.delete(
+          `https://srs-publications-server.vercel.app/api/users/${id}`
+        ); // API endpoint to delete a user
         alert("User deleted successfully");
         fetchUsers(); // Refresh the list after deleting
       } catch (error) {

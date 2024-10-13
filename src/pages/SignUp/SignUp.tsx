@@ -2,9 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
-import { UserCredential } from "firebase/auth"; // Import UserCredential for Firebase type
 import axios from "axios"; // Import axios for HTTP requests
 
+// Define form data type
 type FormData = {
   name: string;
   email: string;
@@ -19,18 +19,25 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<FormData>(); // Explicitly typed form data
 
-  const { createUser } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const navigate = useNavigate(); // Hook to navigate after signup
+
+  if (!authContext) {
+    return <div>Loading...</div>; // Handle the null case gracefully
+  }
+
+  const { createUser } = authContext;
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
     try {
       const result = await createUser(data.email, data.password);
-      const loggedUser = result.user;
+      const loggedUser = result;
+
       console.log(loggedUser);
 
       // Save user data to the database
-      await axios.post("http://localhost:5000/api/users", {
+      await axios.post("https://srs-publications-server.vercel.app/api/users", {
         name: data.name,
         email: data.email,
       });

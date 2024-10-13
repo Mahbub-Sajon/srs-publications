@@ -34,7 +34,8 @@ const PlaceOrderModal = ({
   isOpen,
   onClose,
 }: PlaceOrderModalProps) => {
-  const { user } = useContext(AuthContext);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { user }: any = useContext(AuthContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [quantity, setQuantity] = useState(cartItem.item.quantity); // Track quantity state
@@ -86,11 +87,14 @@ const PlaceOrderModal = ({
       };
 
       // Save the order in your database first
-      await axios.post("http://localhost:5000/api/orders", orderData);
+      await axios.post(
+        "https://srs-publications-server.vercel.app/api/orders",
+        orderData
+      );
 
       // Create a payment and get the payment URL
       const paymentResponse = await axios.post(
-        "http://localhost:5000/create-payment",
+        "https://srs-publications-server.vercel.app/create-payment",
         {
           orderData,
         }

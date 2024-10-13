@@ -3,15 +3,16 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
-      if (user) {
+      if (authContext?.user) {
+        // Ensure authContext and user are available
         try {
           const response = await fetch(
-            `http://localhost:5000/api/users/admin/${user.email}`
+            `https://srs-publications-server.vercel.app/api/users/admin/${authContext.user.email}`
           ); // Your API endpoint
           const data = await response.json();
           setIsAdmin(data.isAdmin);
@@ -22,7 +23,7 @@ const Sidebar = () => {
     };
 
     checkAdminStatus();
-  }, [user]);
+  }, [authContext?.user]);
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">

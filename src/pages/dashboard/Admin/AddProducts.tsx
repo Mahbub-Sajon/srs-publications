@@ -26,7 +26,7 @@ const AddProducts = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/products",
+        "https://srs-publications-server.vercel.app/products",
         product
       );
       if (response.status === 201) {
