@@ -68,42 +68,44 @@ const PlaceOrderModal = ({
     }
 
     try {
+      // Fetch user details from the backend using email
+      const userResponse = await axios.get(
+        `http://localhost:5000/api/users/${user.email}`
+      );
+      const userData = userResponse.data;
+      console.log(userData.name);
+
       // Create the orderData object with all relevant information
       const orderData = {
         userId: user.uid, // User ID from AuthContext
-        userName: user.displayName || "Guest", // User name, default to 'Guest' if not available
+        userName: userData.name, // Fetch name from the backend
+        email: userData.email,
         items: [
           {
             productId: cartItem.item._id,
-            title: cartItem.item.title, // Product name (title)
-            quantity: quantity, // Use updated quantity
+            title: cartItem.item.title,
+            quantity: quantity,
             price: cartItem.item.price,
           },
         ],
-        address, // User-provided address
-        phone, // User-provided phone number
-        totalPrice: discountedPrice, // Use discounted price
-        createdAt: new Date(), // Current timestamp
+        address,
+        phone,
+        totalPrice: discountedPrice,
+        createdAt: new Date(),
       };
 
-      // Save the order in your database first
-      await axios.post(
-        "https://srs-publications-server.vercel.app/api/orders",
-        orderData
-      );
+      // Save the order in your database
+      await axios.post("http://localhost:5000/api/orders", orderData);
 
       // Create a payment and get the payment URL
       const paymentResponse = await axios.post(
-        "https://srs-publications-server.vercel.app/create-payment",
-        {
-          orderData,
-        }
+        "http://localhost:5000/create-payment",
+        { orderData }
       );
 
-      // Redirect the user to the payment gateway page
       const paymentUrl = paymentResponse.data.GatewayPageUrl;
       if (paymentUrl) {
-        window.location.href = paymentUrl; // Redirect to the payment page
+        window.location.href = paymentUrl;
       } else {
         console.error("Payment URL not found");
       }

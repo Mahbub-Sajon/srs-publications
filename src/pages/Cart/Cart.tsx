@@ -33,7 +33,7 @@ const Cart = () => {
       if (user) {
         try {
           const response = await axios.get<CartItem[]>(
-            `https://srs-publications-server.vercel.app/cart/${user.uid}`
+            `http://localhost:5000/cart/${user.uid}`
           );
           setUserCartItems(response.data);
         } catch (error) {
@@ -58,9 +58,7 @@ const Cart = () => {
   const handleClearCart = async () => {
     if (user) {
       try {
-        await axios.delete(
-          `https://srs-publications-server.vercel.app/cart/${user.uid}`
-        );
+        await axios.delete(`http://localhost:5000/cart/${user.uid}`);
         setUserCartItems([]); // Clear cart state after successful deletion
       } catch (error) {
         console.error("Error clearing cart:", error);
