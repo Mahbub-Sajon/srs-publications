@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 const AddProducts = () => {
   const [product, setProduct] = useState({
@@ -145,12 +146,12 @@ const AddProducts = () => {
             whileTap={{ scale: 0.95 }}
             className="flex justify-center"
           >
-            <button
+            <Button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              className="w-full  text-white py-2 px-4 rounded-md  focus:outline-none focus:ring-2 focus:ring-opacity-50"
             >
               Add Product
-            </button>
+            </Button>
           </motion.div>
         </form>
       </motion.div>
