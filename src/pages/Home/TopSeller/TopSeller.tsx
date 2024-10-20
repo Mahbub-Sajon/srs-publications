@@ -8,7 +8,7 @@ import swiper3 from "../../../assets/swiper/swiper3.jpg";
 import swiper4 from "../../../assets/swiper/swiper4.jpg";
 import swiper5 from "../../../assets/swiper/swiper5.jpg";
 import { Autoplay, Pagination } from "swiper/modules";
-const DonarTestimonials = () => {
+const TopSeller = () => {
   return (
     <Container>
       <section className="z-10 md:z-0">
@@ -75,4 +75,4 @@ const DonarTestimonials = () => {
     </Container>
   );
 };
-export default DonarTestimonials;
+export default TopSeller;

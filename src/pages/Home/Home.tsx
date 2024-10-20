@@ -1,5 +1,5 @@
 import AboutUs from "./AboutUs/AboutUs";
-import DonarTestimonials from "./TopSeller/TopSeller";
+import TopSeller from "./TopSeller/TopSeller";
 import BooksBanner from "./BooksBanner/BooksBanner";
 import SupplyItemCards from "./SupplyItemCards/SupplyItemCards";
 
@@ -8,7 +8,7 @@ const Home = () => {
     <div>
       <BooksBanner />
       <SupplyItemCards />
-      <DonarTestimonials />
+      <TopSeller />
       <AboutUs />
     </div>
   );
