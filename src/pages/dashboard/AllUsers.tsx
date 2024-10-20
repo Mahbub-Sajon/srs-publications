@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 // Define the User type
 interface User {
   _id: string;
   name: string;
   email: string;
+  role: string; // Assuming you have role in your user object
 }
 
 const AllUsers: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]); // Ensure users is initialized as an empty array
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch all users
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users"); // API endpoint for getting all users
+      const response = await axios.get("http://localhost:5000/api/users");
       const data = response.data;
 
-      // Ensure the response data is an array
       if (Array.isArray(data)) {
         setUsers(data);
       } else {
@@ -32,24 +33,22 @@ const AllUsers: React.FC = () => {
     }
   };
 
-  // Make Admin
   const makeAdmin = async (id: string) => {
     try {
-      await axios.patch(`http://localhost:5000/users/admin/${id}`); // API endpoint to make a user admin
+      await axios.patch(`http://localhost:5000/users/admin/${id}`);
       alert("User made admin successfully");
-      fetchUsers(); // Refresh the list after updating
+      fetchUsers();
     } catch (error) {
       console.error("Error making user admin:", error);
     }
   };
 
-  // Delete user
   const deleteUser = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/users/${id}`); // API endpoint to delete a user
+        await axios.delete(`http://localhost:5000/api/users/${id}`);
         alert("User deleted successfully");
-        fetchUsers(); // Refresh the list after deleting
+        fetchUsers();
       } catch (error) {
         console.error("Error deleting user:", error);
       }
@@ -57,7 +56,7 @@ const AllUsers: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUsers(); // Fetch users on component mount
+    fetchUsers();
   }, []);
 
   if (loading) {
@@ -81,24 +80,35 @@ const AllUsers: React.FC = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user._id}>
+            <motion.tr
+              key={user._id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
+            >
               <td className="px-4 py-2 border">{user.name}</td>
               <td className="px-4 py-2 border">{user.email}</td>
-              <td className="px-4 py-2 border flex space-x-2">
-                <button
-                  onClick={() => makeAdmin(user._id)}
-                  className="bg-blue-500 text-white px-3 py-1 rounded"
-                >
-                  Make Admin
-                </button>
-                <button
-                  onClick={() => deleteUser(user._id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded"
-                >
-                  Delete
-                </button>
+              <td className="px-4 py-2 border">
+                <div className="flex justify-end space-x-2">
+                  {/* Only show the "Make Admin" button if the user is not already an admin */}
+                  {user.role !== "admin" && (
+                    <Button
+                      onClick={() => makeAdmin(user._id)}
+                      className=" text-white px-3 py-1 rounded transition duration-200"
+                    >
+                      Make Admin
+                    </Button>
+                  )}
+                  <button
+                    onClick={() => deleteUser(user._id)}
+                    className="bg-red-700 text-white px-3 py-1 rounded hover:bg-red-800 transition duration-200"
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
-            </tr>
+            </motion.tr>
           ))}
         </tbody>
       </table>
