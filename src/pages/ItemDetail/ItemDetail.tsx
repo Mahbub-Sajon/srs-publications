@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "@/providers/AuthProvider"; // Import AuthContext
+import Loading from "@/components/Loading/Loading";
 
 type Item = {
   _id: string; // Now treating _id as a string
@@ -16,6 +17,7 @@ type Item = {
 const ItemDetail = () => {
   const { _id } = useParams<{ _id: string }>(); // Extract the ID parameter from the URL
   const [item, setItem] = useState<Item | null>(null);
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user, addToCart }: any = useContext(AuthContext); // Access user and addToCart from AuthContext
   const navigate = useNavigate(); // For navigation
@@ -39,6 +41,8 @@ const ItemDetail = () => {
         }
       } catch (error) {
         console.log("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data fetch is complete
       }
     };
 
@@ -86,6 +90,17 @@ const ItemDetail = () => {
       navigate("/login");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <Loading />
+          {/* Optionally add a spinner or loading animation here */}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-10 w-2/3 mx-auto">

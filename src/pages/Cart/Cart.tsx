@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import PlaceOrderModal from "../ItemDetail/PlaceOrderModal";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/Loading/Loading";
 
 interface CartItem {
   _id: string; // Unique ID for the cart entry
@@ -27,10 +28,12 @@ const Cart = () => {
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
 
   useEffect(() => {
     const fetchCartItems = async () => {
       if (user) {
+        setLoading(true); // Set loading to true before fetching
         try {
           const response = await axios.get<CartItem[]>(
             `http://localhost:5000/cart/${user.uid}`
@@ -38,6 +41,8 @@ const Cart = () => {
           setUserCartItems(response.data);
         } catch (error) {
           console.log("Error fetching cart items:", error);
+        } finally {
+          setLoading(false); // Set loading to false after data is fetched
         }
       }
     };
@@ -78,41 +83,48 @@ const Cart = () => {
           Clear Cart
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {userCartItems.length > 0 ? (
-          userCartItems.map((cartItem) => (
-            <motion.div
-              key={cartItem._id}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-              className="border rounded-lg p-4 shadow-lg bg-white"
-            >
-              <img
-                src={cartItem.item.image}
-                alt={cartItem.item.title}
-                className="w-full h-32 object-cover rounded-md"
-              />
-              <h2 className="text-xl font-semibold mt-2">
-                {cartItem.item.title}
-              </h2>
-              <p className="text-md text-gray-600">
-                Quantity in Cart: {cartItem.item.quantity}
-              </p>
-              <p className="text-md font-bold mt-2">
-                Total Price: ${cartItem.item.price * cartItem.item.quantity}
-              </p>
-              <Button
-                className="my-2"
-                onClick={() => handleOpenModal(cartItem)}
+
+      {/* Show loading indicator */}
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {userCartItems.length > 0 ? (
+            userCartItems.map((cartItem) => (
+              <motion.div
+                key={cartItem._id}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+                className="border rounded-lg p-4 shadow-lg bg-white"
               >
-                Place Order
-              </Button>
-            </motion.div>
-          ))
-        ) : (
-          <p className="text-lg">Your cart is empty.</p>
-        )}
-      </div>
+                <img
+                  src={cartItem.item.image}
+                  alt={cartItem.item.title}
+                  className="w-full h-32 object-cover rounded-md"
+                />
+                <h2 className="text-xl font-semibold mt-2">
+                  {cartItem.item.title}
+                </h2>
+                <p className="text-md text-gray-600">
+                  Quantity in Cart: {cartItem.item.quantity}
+                </p>
+                <p className="text-md font-bold mt-2">
+                  Total Price: BDT{" "}
+                  {cartItem.item.price * cartItem.item.quantity}
+                </p>
+                <Button
+                  className="my-2"
+                  onClick={() => handleOpenModal(cartItem)}
+                >
+                  Place Order
+                </Button>
+              </motion.div>
+            ))
+          ) : (
+            <p className="text-lg">Your cart is empty.</p>
+          )}
+        </div>
+      )}
 
       {/* Conditionally render the modal */}
       {selectedCartItem && (

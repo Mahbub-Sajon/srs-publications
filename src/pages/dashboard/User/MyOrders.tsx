@@ -1,6 +1,7 @@
 import { AuthContext } from "@/providers/AuthProvider";
 import { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Loading from "@/components/Loading/Loading";
 
 interface Order {
   tran_id: string;
@@ -39,7 +40,7 @@ const MyOrders = () => {
     fetchOrders();
   }, [authContext?.user]);
 
-  if (loading) return <div className="text-center">Loading...</div>;
+  if (loading) return <Loading />;
   if (error)
     return <div className="text-red-500 text-center">Error: {error}</div>;
 
@@ -59,7 +60,7 @@ const MyOrders = () => {
             <tr>
               <th className="border border-gray-300 p-2">Transaction ID</th>
               <th className="border border-gray-300 p-2">Product Name</th>
-              <th className="border border-gray-300 p-2">Total Amount</th>
+              <th className="border border-gray-300 p-2">Total Amount (BDT)</th>
               <th className="border border-gray-300 p-2">Payment Status</th>
               <th className="border border-gray-300 p-2">Date</th>
             </tr>

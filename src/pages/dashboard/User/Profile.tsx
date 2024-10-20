@@ -3,6 +3,7 @@ import axios from "axios";
 import { AuthContext } from "@/providers/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import Loading from "@/components/Loading/Loading";
 
 const Profile = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,7 +52,7 @@ const Profile = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return <Loading />;
   }
 
   return (

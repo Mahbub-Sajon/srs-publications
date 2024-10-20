@@ -32,6 +32,16 @@ const AddProducts = () => {
       );
       if (response.status === 201) {
         alert("Product added successfully!");
+
+        // Clear the input fields
+        setProduct({
+          image: "",
+          title: "",
+          category: "",
+          quantity: 0,
+          price: 0,
+          description: "",
+        });
       }
     } catch (error) {
       console.error("Error adding product:", error);
@@ -148,7 +158,7 @@ const AddProducts = () => {
           >
             <Button
               type="submit"
-              className="w-full  text-white py-2 px-4 rounded-md  focus:outline-none focus:ring-2 focus:ring-opacity-50"
+              className="w-full text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
             >
               Add Product
             </Button>

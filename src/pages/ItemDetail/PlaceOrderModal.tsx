@@ -145,19 +145,19 @@ const PlaceOrderModal = ({
                 +
               </Button>
             </div>
-            <p className="col-span-1">${discountedPrice.toFixed(2)}</p>
+            <p className="col-span-1">BDT {discountedPrice.toFixed(2)}</p>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>Original Price</Label>
             {/* Crossed-out original price */}
             <p className="col-span-3 line-through text-gray-500">
-              ${originalPrice.toFixed(2)}
+              BDT {originalPrice.toFixed(2)}
             </p>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>Discounted Price</Label>
             <p className="col-span-3">
-              ${discountedPrice.toFixed(2)}{" "}
+              BDT {discountedPrice.toFixed(2)}{" "}
               <span className="text-green-500">(15% discount)</span>
             </p>
           </div>

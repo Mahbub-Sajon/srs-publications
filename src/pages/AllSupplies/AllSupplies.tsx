@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SupplyItemCard from "../Home/SupplyItemCard/SupplyItemCard";
 import Container from "@/components/layout/Container";
+import Loading from "@/components/Loading/Loading";
 
 interface Item {
   _id: string;
@@ -15,6 +16,7 @@ const AllSupplies = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +26,8 @@ const AllSupplies = () => {
         setItems(result);
       } catch (error) {
         console.log("Error fetching data", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
       }
     };
     fetchData();
@@ -72,18 +76,25 @@ const AllSupplies = () => {
         </select>
       </div>
 
-      {/* Message for no items found */}
-      {filteredItems.length === 0 && (
-        <div className="text-center text-lg text-red-600 mb-5">
-          No items found matching your search.
-        </div>
-      )}
+      {/* Show loading indicator */}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {/* Message for no items found */}
+          {filteredItems.length === 0 && (
+            <div className="text-center text-lg text-red-600 mb-5">
+              No items found matching your search.
+            </div>
+          )}
 
-      <div className="grid md:grid-cols-3 mb-10 gap-6 mx-auto">
-        {filteredItems.map((item: Item) => (
-          <SupplyItemCard key={item._id} item={item} />
-        ))}
-      </div>
+          <div className="grid md:grid-cols-3 mb-10 gap-6 mx-auto">
+            {filteredItems.map((item: Item) => (
+              <SupplyItemCard key={item._id} item={item} />
+            ))}
+          </div>
+        </>
+      )}
     </Container>
   );
 };

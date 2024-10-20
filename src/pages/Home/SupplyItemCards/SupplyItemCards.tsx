@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading/Loading";
 import SupplyItemCard from "../SupplyItemCard/SupplyItemCard";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ const SupplyItemCards = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +28,8 @@ const SupplyItemCards = () => {
         setItems(result);
       } catch (error) {
         console.log("Error fetching data", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
       }
     };
     fetchData();
@@ -72,18 +76,26 @@ const SupplyItemCards = () => {
         </select>
       </div>
 
-      {/* Message for no items found */}
-      {filteredItems.length === 0 && (
-        <div className="text-center text-lg text-red-600 mb-5">
-          The book you are looking for is not available.
-        </div>
+      {/* Show loading indicator */}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {/* Message for no items found */}
+          {filteredItems.length === 0 && (
+            <div className="text-center text-lg text-red-600 mb-5">
+              The book you are looking for is not available.
+            </div>
+          )}
+
+          <div className="grid md:grid-cols-3 mb-10 gap-6 mx-auto">
+            {filteredItems.slice(0, 6).map((item: Item) => (
+              <SupplyItemCard key={item._id} item={item} />
+            ))}
+          </div>
+        </>
       )}
 
-      <div className="grid md:grid-cols-3 mb-10 gap-6 mx-auto">
-        {filteredItems.slice(0, 6).map((item: Item) => (
-          <SupplyItemCard key={item._id} item={item} />
-        ))}
-      </div>
       <div className="text-center mb-10">
         <NavLink to="/all-supplies">
           <Button>View All</Button>

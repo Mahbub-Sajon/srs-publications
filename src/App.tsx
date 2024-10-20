@@ -3,10 +3,12 @@ import Footer from "./pages/Home/Footer/Footer";
 
 function App() {
   return (
-    <>
-      <MainLayout />
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        <MainLayout />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

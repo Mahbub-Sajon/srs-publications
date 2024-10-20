@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/Loading/Loading";
 
 // Define the User type
 interface User {
@@ -60,7 +61,7 @@ const AllUsers: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading users...</p>;
+    return <Loading />;
   }
 
   if (!Array.isArray(users) || users.length === 0) {
