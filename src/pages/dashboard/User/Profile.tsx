@@ -20,7 +20,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const userResponse = await axios.get(
-          `https://srs-publications-server.vercel.app/api/users/${user.email}`
+          `http://localhost:5000/api/users/${user.email}`
         );
         setUserData(userResponse.data);
         setName(userResponse.data.name);
@@ -39,12 +39,9 @@ const Profile = () => {
   const handleUpdateName = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `https://srs-publications-server.vercel.app/api/users/${user.email}`,
-        {
-          name,
-        }
-      );
+      await axios.put(`http://localhost:5000/api/users/${user.email}`, {
+        name,
+      });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setUserData((prev: any) => ({ ...prev, name })); // Adjust type if needed
       alert("Name updated successfully");

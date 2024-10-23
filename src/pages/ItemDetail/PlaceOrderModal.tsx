@@ -70,7 +70,7 @@ const PlaceOrderModal = ({
     try {
       // Fetch user details from the backend using email
       const userResponse = await axios.get(
-        `https://srs-publications-server.vercel.app/api/users/${user.email}`
+        `http://localhost:5000/api/users/${user.email}`
       );
       const userData = userResponse.data;
       console.log(userData.name);
@@ -95,14 +95,11 @@ const PlaceOrderModal = ({
       };
 
       // Save the order in your database
-      await axios.post(
-        "https://srs-publications-server.vercel.app/api/orders",
-        orderData
-      );
+      await axios.post("http://localhost:5000/api/orders", orderData);
 
       // Create a payment and get the payment URL
       const paymentResponse = await axios.post(
-        "https://srs-publications-server.vercel.app/create-payment",
+        "http://localhost:5000/create-payment",
         { orderData }
       );
 

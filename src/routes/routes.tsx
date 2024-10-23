@@ -44,7 +44,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <PrivateRoutes>
+            <Cart />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/success/:transactionId",

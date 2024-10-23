@@ -25,9 +25,7 @@ const ItemDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://srs-publications-server.vercel.app/products"
-        );
+        const response = await fetch("http://localhost:5000/products");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -71,16 +69,13 @@ const ItemDetail = () => {
 
       // Send the cart item data to the backend
       try {
-        const response = await fetch(
-          "https://srs-publications-server.vercel.app/api/cart",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(cartItemData),
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartItemData),
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -110,7 +105,7 @@ const ItemDetail = () => {
   return (
     <div className="mb-10 w-2/3 mx-auto">
       {item && (
-        <div className="rounded-md text-center border-2 p-2 mt-28 w-2/3 mx-auto bg-[#f1efef] shadow-lg">
+        <div className="rounded-md text-center border-2 p-2 mt-28 md:w-2/3 mx-auto bg-[#f1efef] shadow-lg">
           <h1 className="text-3xl font-bold my-2">Item Detail</h1>
           <img
             className="rounded-md w-1/2 mx-auto"

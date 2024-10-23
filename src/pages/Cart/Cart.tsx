@@ -75,10 +75,10 @@ const Cart = () => {
 
   return (
     <div className="p-5">
-      <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
+      <h1 className="text-3xl font-bold mb-4 mt-28 text-center">Your Cart</h1>
       <div className="flex justify-between items-center mb-4">
         <Button
-          className="bg-red-500 text-white hover:bg-red-600"
+          className="bg-red-700 text-white hover:bg-red-800 mx-auto"
           onClick={handleClearCart}
           disabled={userCartItems.length === 0}
         >

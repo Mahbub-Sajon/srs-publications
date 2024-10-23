@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import logo from "../../assets/logo/logo.png";
 import { AuthContext } from "@/providers/AuthProvider"; // Import AuthContext
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { BsCartPlus, BsList } from "react-icons/bs";
 
 const MainNavbar = () => {
@@ -27,6 +27,24 @@ const MainNavbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  // Close the menu when clicking outside
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleClickOutside = (event: any) => {
+      if (!event.target.closest("nav")) {
+        setIsMenuOpen(false); // Close the menu
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <header className="bg-[#dadada] p-3 fixed w-full z-10 top-0">
@@ -53,18 +71,24 @@ const MainNavbar = () => {
             isMenuOpen ? "flex" : "hidden"
           } md:flex md:items-center`}
         >
-          <NavLink to="/" className="py-2 px-4 hover:bg-gray-300 rounded-md">
+          <NavLink
+            to="/"
+            className="py-2 px-4 hover:bg-gray-300 rounded-md"
+            onClick={() => setIsMenuOpen(false)} // Close menu when an item is clicked
+          >
             Home
           </NavLink>
           <NavLink
             to="/all-supplies"
             className="py-2 px-4 hover:bg-gray-300 rounded-md"
+            onClick={() => setIsMenuOpen(false)} // Close menu when an item is clicked
           >
             All Collections
           </NavLink>
           <NavLink
             to="/cart"
             className="py-2 px-4 hover:bg-gray-300 rounded-md"
+            onClick={() => setIsMenuOpen(false)} // Close menu when an item is clicked
           >
             <div className="flex items-center">
               <BsCartPlus />
@@ -75,15 +99,25 @@ const MainNavbar = () => {
           <NavLink
             to="/dashboard"
             className="py-2 px-4 hover:bg-gray-300 rounded-md"
+            onClick={() => setIsMenuOpen(false)} // Close menu when an item is clicked
           >
             Dashboard
           </NavLink>
           {user ? (
-            <Button onClick={handleLogOut} className="py-2 px-4 rounded-md">
+            <Button
+              onClick={() => {
+                handleLogOut();
+                setIsMenuOpen(false); // Close menu after logout
+              }}
+              className="py-2 px-4 rounded-md"
+            >
               Logout
             </Button>
           ) : (
-            <Button className="py-2 px-4 rounded-md">
+            <Button
+              className="py-2 px-4 rounded-md"
+              onClick={() => setIsMenuOpen(false)} // Close menu when going to login
+            >
               <NavLink to="/login">Login</NavLink>
             </Button>
           )}

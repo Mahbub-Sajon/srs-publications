@@ -23,9 +23,7 @@ const SupplyItemCards = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://srs-publications-server.vercel.app/products"
-        );
+        const response = await fetch("http://localhost:5000/products");
         const result = await response.json();
         setItems(result);
       } catch (error) {
