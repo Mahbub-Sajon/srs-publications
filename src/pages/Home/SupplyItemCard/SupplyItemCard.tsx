@@ -8,13 +8,14 @@ type TSupplyItemCard = {
   _id: string;
   image: string;
   title: string;
+  author: string; // Add author property
   category: string;
   quantity: number;
   price: number;
 };
 
 const SupplyItemCard = (props: { item: TSupplyItemCard }) => {
-  const { _id, image, title, category, quantity, price } = props.item;
+  const { _id, image, title, author, category, quantity, price } = props.item; // Destructure author
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user, addToCart }: any = useContext(AuthContext); // Access user and addToCart from AuthContext
@@ -71,8 +72,10 @@ const SupplyItemCard = (props: { item: TSupplyItemCard }) => {
       viewport={{ once: false }} // Enable reanimation when scrolling back
       className="rounded-md text-center border-2 p-2 bg-[#f1efef] shadow-lg flex flex-col h-full" // Flex column to make button at the bottom
     >
-      <img className="w-full h-48 object-cover" src={image} alt="" />
+      <img className="w-full h-48 object-cover" src={image} alt={title} />
       <h1 className="text-2xl font-bold">{title}</h1>
+      <h2 className="text-lg font-medium italic">Author: {author}</h2>{" "}
+      {/* Display author */}
       <h2 className="text-xl font-semibold">Category: {category}</h2>
       <p className="font-semibold">Quantity: {quantity}</p>
       <p className="font-semibold">Price: BDT {price}</p>

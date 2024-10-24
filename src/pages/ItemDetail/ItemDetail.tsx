@@ -12,6 +12,7 @@ type Item = {
   quantity: number; // Changed to number
   description: string;
   price: number;
+  author: string; // Added author field
 };
 
 const ItemDetail = () => {
@@ -116,6 +117,8 @@ const ItemDetail = () => {
           <h2 className="text-xl font-semibold">Category: {item.category}</h2>
           <p className="font-semibold">Quantity: {item.quantity}</p>
           <p className="font-semibold">Price: ${item.price}</p>
+          <p className="font-semibold">Author: {item.author}</p>{" "}
+          {/* Added author */}
           <p className="font-semibold">
             Description: <br /> {item.description}
           </p>

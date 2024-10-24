@@ -1,98 +1,122 @@
 [
   {
-    "_id": 1,
+    "_id": "650f5431a1b7e71053e8bc11",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsW9vWI0uieY0Heok_K66L3de-lMHQFf9bram7pAeIuA&s",
     "title": "The Great Gatsby",
     "category": "Fiction",
     "quantity": 50,
-    "description": "A classic novel set in the Jazz Age, exploring themes of wealth, love, and the American Dream through the eyes of narrator Nick Carraway."
+    "description": "A classic novel set in the Jazz Age, exploring themes of wealth, love, and the American Dream through the eyes of narrator Nick Carraway.",
+    "price": 350,
+    "author": "F. Scott Fitzgerald"
   },
   {
-    "_id": 2,
+    "_id": "650f5431a1b7e71053e8bc12",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZCUrfLvgMrZXyBeTSQnNh11O8ka18tfAK-NmRxDGb4A&s",
     "title": "To Kill a Mockingbird",
     "category": "Classic Literature",
     "quantity": 40,
-    "description": "Harper Lee's masterpiece addressing racial injustice in the Deep South, told through the perspective of young Scout Finch."
+    "description": "Harper Lee's masterpiece addressing racial injustice in the Deep South, told through the perspective of young Scout Finch.",
+    "price": 400,
+    "author": "Harper Lee"
   },
   {
-    "_id": 3,
+    "_id": "650f5431a1b7e71053e8bc13",
     "image": "https://womensprize.com/app/uploads/2024/01/Dystopian-Novels.jpg",
     "title": "1984",
     "category": "Dystopian Fiction",
     "quantity": 30,
-    "description": "George Orwell's dystopian vision of a totalitarian society, where Big Brother surveils every aspect of citizens' lives."
+    "description": "George Orwell's dystopian vision of a totalitarian society, where Big Brother surveils every aspect of citizens' lives.",
+    "price": 450,
+    "author": "George Orwell"
   },
   {
-    "_id": 4,
+    "_id": "650f5431a1b7e71053e8bc14",
     "image": "https://readaloudrevival.com/wp-content/uploads/2016/05/Pride-and-Prejudice.png.webp",
     "title": "Pride and Prejudice",
     "category": "Classic Literature",
     "quantity": 45,
-    "description": "Jane Austen's timeless romance exploring themes of social class, marriage, and personal growth in Regency-era England."
+    "description": "Jane Austen's timeless romance exploring themes of social class, marriage, and personal growth in Regency-era England.",
+    "price": 380,
+    "author": "Jane Austen"
   },
   {
-    "_id": 5,
+    "_id": "650f5431a1b7e71053e8bc15",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/The_Catcher_in_the_Rye_%281951%2C_first_edition_cover%29.jpg/640px-The_Catcher_in_the_Rye_%281951%2C_first_edition_cover%29.jpg",
     "title": "The Catcher in the Rye",
     "category": "Coming-of-Age Fiction",
     "quantity": 35,
-    "description": "J.D. Salinger's iconic novel following disaffected teenager Holden Caulfield as he navigates adolescence and societal expectations."
+    "description": "J.D. Salinger's iconic novel following disaffected teenager Holden Caulfield as he navigates adolescence and societal expectations.",
+    "price": 420,
+    "author": "J.D. Salinger"
   },
   {
-    "_id": 6,
+    "_id": "650f5431a1b7e71053e8bc16",
     "image": "https://www.pluggedin.com/wp-content/uploads/2020/01/hobbit-cover-670x1024.jpg",
     "title": "The Hobbit",
     "category": "Fantasy",
     "quantity": 25,
-    "description": "J.R.R. Tolkien's beloved tale of hobbit Bilbo Baggins' unexpected adventure to reclaim treasure guarded by the dragon Smaug."
+    "description": "J.R.R. Tolkien's beloved tale of hobbit Bilbo Baggins' unexpected adventure to reclaim treasure guarded by the dragon Smaug.",
+    "price": 600,
+    "author": "J.R.R. Tolkien"
   },
   {
-    "_id": 7,
+    "_id": "650f5431a1b7e71053e8bc17",
     "image": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
     "title": "The Lord of the Rings",
     "category": "Fantasy",
     "quantity": 20,
-    "description": "Tolkien's epic trilogy chronicling the quest to destroy the One Ring and defeat the dark lord Sauron, set in the world of Middle-earth."
+    "description": "Tolkien's epic trilogy chronicling the quest to destroy the One Ring and defeat the dark lord Sauron, set in the world of Middle-earth.",
+    "price": 800,
+    "author": "J.R.R. Tolkien"
   },
   {
-    "_id": 8,
+    "_id": "650f5431a1b7e71053e8bc18",
     "image": "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781681778488/moby-dick-9781681778488_hr.jpg",
     "title": "Moby-Dick",
     "category": "Adventure",
     "quantity": 30,
-    "description": "Herman Melville's literary masterpiece exploring themes of obsession, revenge, and the human condition through the journey of Captain Ahab."
+    "description": "Herman Melville's literary masterpiece exploring themes of obsession, revenge, and the human condition through the journey of Captain Ahab.",
+    "price": 500,
+    "author": "Herman Melville"
   },
   {
-    "_id": 9,
+    "_id": "650f5431a1b7e71053e8bc19",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi7ByaMNzFV-HL6zqLJr0tsMNO8YnXDA_Xg2ezF0OWIw&s",
     "title": "The Great Expectations",
     "category": "Classic Literature",
     "quantity": 40,
-    "description": "Charles Dickens' novel follows the journey of orphan Pip, exploring themes of ambition, identity, and social class in Victorian England."
+    "description": "Charles Dickens' novel follows the journey of orphan Pip, exploring themes of ambition, identity, and social class in Victorian England.",
+    "price": 450,
+    "author": "Charles Dickens"
   },
   {
-    "_id": 10,
+    "_id": "650f5431a1b7e71053e8bc1a",
     "image": "https://d15fwz9jg1iq5f.cloudfront.net/wp-content/uploads/2022/03/17112720/765x530-4-1.png",
     "title": "Jane Eyre",
     "category": "Gothic Fiction",
     "quantity": 35,
-    "description": "Charlotte Brontë's classic novel follows the life of governess Jane Eyre, exploring themes of love, independence, and morality."
+    "description": "Charlotte Brontë's classic novel follows the life of governess Jane Eyre, exploring themes of love, independence, and morality.",
+    "price": 400,
+    "author": "Charlotte Brontë"
   },
   {
-    "_id": 11,
+    "_id": "650f5431a1b7e71053e8bc1b",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB0pagG_Sn7nJfb9eTLXlmv4VB1Xa1HAi3W5tI5hICHQ&s",
     "title": "The Alchemist",
     "category": "Philosophical Fiction",
     "quantity": 25,
-    "description": "Paulo Coelho's allegorical novel follows Santiago, a shepherd boy, on his journey to fulfill his personal legend and discover the meaning of life."
+    "description": "Paulo Coelho's allegorical novel follows Santiago, a shepherd boy, on his journey to fulfill his personal legend and discover the meaning of life.",
+    "price": 370,
+    "author": "Paulo Coelho"
   },
   {
-    "_id": 12,
+    "_id": "650f5431a1b7e71053e8bc1c",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9xWB61NcmAt4MfvZ2AyZXcYzljAF7vjjlKESbD9pwlg&s",
     "title": "The Hunger Games",
     "category": "Young Adult Fiction",
     "quantity": 30,
-    "description": "Suzanne Collins' dystopian trilogy follows protagonist Katniss Everdeen as she navigates a brutal government-sponsored competition and leads a rebellion against tyranny."
+    "description": "Suzanne Collins' dystopian trilogy follows protagonist Katniss Everdeen as she navigates a brutal government-sponsored competition and leads a rebellion against tyranny.",
+    "price": 480,
+    "author": "Suzanne Collins"
   }
 ]

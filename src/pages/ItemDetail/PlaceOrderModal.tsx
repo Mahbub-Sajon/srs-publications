@@ -34,28 +34,42 @@ const PlaceOrderModal = ({
   isOpen,
   onClose,
 }: PlaceOrderModalProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user }: any = useContext(AuthContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [quantity, setQuantity] = useState(cartItem.item.quantity); // Track quantity state
-
+  const [stockQuantity, setStockQuantity] = useState<number | null>(null); // Stock quantity
   const originalPrice = cartItem.item.price * cartItem.item.quantity;
   const [totalPrice, setTotalPrice] = useState(originalPrice);
-
-  // Apply 15% discount to the total price
   const discountedPrice = totalPrice * 0.85;
 
-  // Function to handle quantity change
+  // Fetch stock quantity when modal opens
+  useEffect(() => {
+    if (cartItem && isOpen) {
+      const fetchStockQuantity = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/products/${cartItem.item._id}`
+          );
+          const productData = response.data;
+          setStockQuantity(productData.quantity); // Set stock quantity from backend
+        } catch (error) {
+          console.error("Error fetching stock quantity:", error);
+        }
+      };
+
+      fetchStockQuantity();
+    }
+  }, [cartItem, isOpen]);
+
   const handleQuantityChange = (action: "increase" | "decrease") => {
-    if (action === "increase") {
+    if (action === "increase" && quantity < (stockQuantity || 0)) {
       setQuantity((prevQuantity) => prevQuantity + 1);
     } else if (action === "decrease" && quantity > 1) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
 
-  // Recalculate total price whenever quantity changes
   useEffect(() => {
     const newTotalPrice = quantity * cartItem.item.price;
     setTotalPrice(newTotalPrice);
@@ -68,17 +82,14 @@ const PlaceOrderModal = ({
     }
 
     try {
-      // Fetch user details from the backend using email
       const userResponse = await axios.get(
         `http://localhost:5000/api/users/${user.email}`
       );
       const userData = userResponse.data;
-      console.log(userData.name);
 
-      // Create the orderData object with all relevant information
       const orderData = {
-        userId: user.uid, // User ID from AuthContext
-        userName: userData.name, // Fetch name from the backend
+        userId: user.uid,
+        userName: userData.name,
         email: userData.email,
         items: [
           {
@@ -94,10 +105,8 @@ const PlaceOrderModal = ({
         createdAt: new Date(),
       };
 
-      // Save the order in your database
       await axios.post("http://localhost:5000/api/orders", orderData);
 
-      // Create a payment and get the payment URL
       const paymentResponse = await axios.post(
         "http://localhost:5000/create-payment",
         { orderData }
@@ -127,29 +136,31 @@ const PlaceOrderModal = ({
           <div className="grid grid-cols-4 gap-4">
             <Label className="col-span-1">{cartItem.item.title}</Label>
             <div className="col-span-2 flex items-center space-x-2">
-              {/* Quantity Decrease Button */}
               <Button
                 variant="outline"
                 onClick={() => handleQuantityChange("decrease")}
-                disabled={quantity <= 1} // Disable when quantity is 1
+                disabled={quantity <= 1}
               >
                 -
               </Button>
-              {/* Display Quantity */}
               <p>{quantity}</p>
-              {/* Quantity Increase Button */}
               <Button
                 variant="outline"
                 onClick={() => handleQuantityChange("increase")}
+                disabled={stockQuantity !== null && quantity >= stockQuantity} // Disable if quantity exceeds stock
               >
                 +
               </Button>
             </div>
             <p className="col-span-1">BDT {discountedPrice.toFixed(2)}</p>
           </div>
+          {stockQuantity !== null && (
+            <div className="text-sm text-gray-500">
+              Available Stock: {stockQuantity}
+            </div>
+          )}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>Original Price</Label>
-            {/* Crossed-out original price */}
             <p className="col-span-3 line-through text-gray-500">
               BDT {originalPrice.toFixed(2)}
             </p>

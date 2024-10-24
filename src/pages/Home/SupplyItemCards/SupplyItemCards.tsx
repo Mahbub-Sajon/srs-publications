@@ -12,6 +12,7 @@ interface Item {
   category: string;
   quantity: number;
   price: number;
+  author: string;
 }
 
 const SupplyItemCards = () => {
@@ -38,14 +39,19 @@ const SupplyItemCards = () => {
   // Get unique categories for the dropdown
   const categories = Array.from(new Set(items.map((item) => item.category)));
 
-  // Filter items based on the search query and selected category
+  // Filter items based on the search query (title or author) and selected category
   const filteredItems = items.filter((item) => {
-    const matchesSearch = item.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+    const searchQueryLower = searchQuery.toLowerCase();
+
+    // Check if the search query matches either the title or the author
+    const matchesSearch =
+      item.title.toLowerCase().includes(searchQueryLower) ||
+      item.author.toLowerCase().includes(searchQueryLower);
+
     const matchesCategory = selectedCategory
       ? item.category === selectedCategory
       : true;
+
     return matchesSearch && matchesCategory;
   });
 
@@ -56,7 +62,7 @@ const SupplyItemCards = () => {
       <div className="flex flex-col md:flex-row md:justify-center mb-5 gap-4">
         <input
           type="text"
-          placeholder="Search by title..."
+          placeholder="Search by title or author..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="border border-slate-700 px-3 py-2 rounded-md w-full md:w-1/3"

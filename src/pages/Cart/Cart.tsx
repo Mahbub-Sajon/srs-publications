@@ -123,7 +123,7 @@ const Cart = () => {
               </motion.div>
             ))
           ) : (
-            <p className="text-lg">Your cart is empty.</p>
+            <p className="text-lg text-center">Your cart is empty.</p>
           )}
         </div>
       )}
