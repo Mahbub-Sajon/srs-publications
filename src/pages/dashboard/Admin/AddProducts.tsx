@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/Loading/Loading";
 
 const AddProducts = () => {
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({
     image: "",
     title: "",
@@ -27,7 +29,7 @@ const AddProducts = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/products",
+        "https://srs-publications-server.vercel.app/products",
         product
       );
       if (response.status === 201) {
@@ -46,13 +48,15 @@ const AddProducts = () => {
     } catch (error) {
       console.error("Error adding product:", error);
       alert("Failed to add product.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+    <div className="flex justify-center items-center min-h-screen bg-gray-900 p-4 text-white">
       <motion.div
-        className="w-full max-w-md bg-white p-6 rounded-lg shadow-md"
+        className="w-full max-w-md p-6 rounded-lg shadow-md bg-gray-800"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -62,7 +66,7 @@ const AddProducts = () => {
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Image URL
             </label>
             <input
@@ -70,14 +74,14 @@ const AddProducts = () => {
               name="image"
               value={product.image}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="https://example.com/image.jpg"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Title
             </label>
             <input
@@ -85,14 +89,14 @@ const AddProducts = () => {
               name="title"
               value={product.title}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Product Title"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Category
             </label>
             <input
@@ -100,14 +104,14 @@ const AddProducts = () => {
               name="category"
               value={product.category}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Category"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Quantity
             </label>
             <input
@@ -115,14 +119,14 @@ const AddProducts = () => {
               name="quantity"
               value={product.quantity}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Quantity"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Price
             </label>
             <input
@@ -131,21 +135,21 @@ const AddProducts = () => {
               step="0.01"
               value={product.price}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Price"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Description
             </label>
             <textarea
               name="description"
               value={product.description}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Product description"
               required
             />
@@ -159,8 +163,9 @@ const AddProducts = () => {
             <Button
               type="submit"
               className="w-full text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
+              disabled={loading}
             >
-              Add Product
+              {loading ? <Loading /> : "Add Product"}
             </Button>
           </motion.div>
         </form>

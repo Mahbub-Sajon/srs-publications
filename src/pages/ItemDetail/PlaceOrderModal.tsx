@@ -20,6 +20,7 @@ interface CartItem {
     title: string;
     quantity: number;
     price: number;
+    author: string;
   };
 }
 
@@ -34,6 +35,7 @@ const PlaceOrderModal = ({
   isOpen,
   onClose,
 }: PlaceOrderModalProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user }: any = useContext(AuthContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -49,7 +51,7 @@ const PlaceOrderModal = ({
       const fetchStockQuantity = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/products/${cartItem.item._id}`
+            `https://srs-publications-server.vercel.app/api/products/${cartItem.item._id}`
           );
           const productData = response.data;
           setStockQuantity(productData.quantity); // Set stock quantity from backend
@@ -83,7 +85,7 @@ const PlaceOrderModal = ({
 
     try {
       const userResponse = await axios.get(
-        `http://localhost:5000/api/users/${user.email}`
+        `https://srs-publications-server.vercel.app/api/users/${user.email}`
       );
       const userData = userResponse.data;
 
@@ -97,6 +99,7 @@ const PlaceOrderModal = ({
             title: cartItem.item.title,
             quantity: quantity,
             price: cartItem.item.price,
+            author: cartItem.item.author,
           },
         ],
         address,
@@ -105,10 +108,13 @@ const PlaceOrderModal = ({
         createdAt: new Date(),
       };
 
-      await axios.post("http://localhost:5000/api/orders", orderData);
+      await axios.post(
+        "https://srs-publications-server.vercel.app/api/orders",
+        orderData
+      );
 
       const paymentResponse = await axios.post(
-        "http://localhost:5000/create-payment",
+        "https://srs-publications-server.vercel.app/create-payment",
         { orderData }
       );
 
@@ -165,6 +171,12 @@ const PlaceOrderModal = ({
               BDT {originalPrice.toFixed(2)}
             </p>
           </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label>Author </Label>
+            <p className="col-span-3">{cartItem.item.author}</p>
+          </div>
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>Discounted Price</Label>
             <p className="col-span-3">

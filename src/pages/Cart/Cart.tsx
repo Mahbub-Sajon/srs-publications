@@ -16,6 +16,7 @@ interface CartItem {
     quantity: number; // This represents how many times the item has been added to the cart
     price: number;
     description: string;
+    author: string;
   };
   addedAt: string;
 }
@@ -107,6 +108,10 @@ const Cart = () => {
                 <h2 className="text-xl font-semibold mt-2">
                   {cartItem.item.title}
                 </h2>
+                <h3 className="text-xl font-semibold mt-2">
+                  {" "}
+                  Author: {cartItem.item.author}
+                </h3>
                 <p className="text-md text-gray-600">
                   Quantity in Cart: {cartItem.item.quantity}
                 </p>
