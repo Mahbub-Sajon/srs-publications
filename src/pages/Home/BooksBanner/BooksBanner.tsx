@@ -7,16 +7,16 @@ import img3 from "../../../assets/banner/banner3.png";
 
 const BooksBanner = () => {
   return (
-    <Container className="mt-20">
+    <Container>
       <Carousel autoPlay infiniteLoop>
         <div>
-          <img src={img1} />
+          <img className="rounded-lg" src={img1} />
         </div>
         <div>
-          <img src={img2} />
+          <img className="rounded-lg" src={img2} />
         </div>
         <div>
-          <img src={img3} />
+          <img className="rounded-lg" src={img3} />
         </div>
       </Carousel>
     </Container>

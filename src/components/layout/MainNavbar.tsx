@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
-import logo from "../../assets/logo/logo.png";
+import logo from "../../assets/logo/logo.webp";
 import { AuthContext } from "@/providers/AuthProvider"; // Import AuthContext
 import { useContext, useState, useEffect } from "react";
 import { BsCartPlus, BsList } from "react-icons/bs";
@@ -46,15 +46,22 @@ const MainNavbar = () => {
     };
   }, [isMenuOpen]);
 
+  const handleLogoClick = () => {
+    // Scroll to the top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <header className="bg-[#dadada] p-3 fixed w-full z-10 top-0">
       <nav className="mx-auto px-5 max-w-[1220px] flex justify-between items-center">
         <div className="flex items-center">
-          <img
-            className="hidden md:block w-[5rem] rounded-md"
-            src={logo}
-            alt="logo"
-          />
+          <Link to="/" onClick={handleLogoClick}>
+            <img
+              className="hidden md:block w-[4rem] rounded-md"
+              src={logo}
+              alt="logo"
+            />
+          </Link>
           <p className="font-bold text-xl ml-5 hidden md:block">
             <span className="text-primary">SRS</span> Publications
           </p>

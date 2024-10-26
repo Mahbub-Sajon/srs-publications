@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion"; // Import motion
-import { useContext } from "react"; // Import useContext to access AuthContext
+import { useContext, useState } from "react"; // Import useContext to access AuthContext
 import { AuthContext } from "@/providers/AuthProvider"; // Import AuthContext
 
 type TSupplyItemCard = {
@@ -21,11 +21,18 @@ const SupplyItemCard = (props: { item: TSupplyItemCard }) => {
   const { user, addToCart }: any = useContext(AuthContext); // Access user and addToCart from AuthContext
   const navigate = useNavigate(); // For navigation
 
+  // State for message display
+  const [message, setMessage] = useState("");
+
   const handleAddToCart = async () => {
     if (user) {
       // Add the item to the cart
       addToCart(props.item);
       console.log("Item added to cart:", props.item);
+
+      // Show success message
+      setMessage("Item added to cart!");
+      setTimeout(() => setMessage(""), 2000); // Clear message after 2 seconds
 
       // Prepare data to send to the backend
       const cartItemData = {
@@ -83,6 +90,8 @@ const SupplyItemCard = (props: { item: TSupplyItemCard }) => {
       <h2 className="text-xl font-semibold">Category: {category}</h2>
       <p className="font-semibold">Quantity: {quantity}</p>
       <p className="font-semibold">Price: BDT {price}</p>
+      {/* Message display */}
+      {message && <p className="mt-2 text-green-600">{message}</p>}
       <div className="mt-auto">
         <Link to={`/item/${_id}`}>
           <Button className="my-2 mx-2">View Detail</Button>

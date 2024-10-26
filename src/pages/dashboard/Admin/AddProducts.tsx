@@ -3,6 +3,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/Loading/Loading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for styling
 
 const AddProducts = () => {
   const [loading, setLoading] = useState(false);
@@ -13,6 +15,7 @@ const AddProducts = () => {
     quantity: 0,
     price: 0,
     description: "",
+    author: "",
   });
 
   const handleChange = (
@@ -26,6 +29,7 @@ const AddProducts = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true); // Set loading state
 
     try {
       const response = await axios.post(
@@ -33,7 +37,8 @@ const AddProducts = () => {
         product
       );
       if (response.status === 201) {
-        alert("Product added successfully!");
+        // Show success toast
+        toast.success("Product added successfully!");
 
         // Clear the input fields
         setProduct({
@@ -43,13 +48,14 @@ const AddProducts = () => {
           quantity: 0,
           price: 0,
           description: "",
+          author: "",
         });
       }
     } catch (error) {
       console.error("Error adding product:", error);
-      alert("Failed to add product.");
+      toast.error("Failed to add product."); // Show error toast
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -91,6 +97,20 @@ const AddProducts = () => {
               onChange={handleChange}
               className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Product Title"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-white mb-1">
+              Author
+            </label>
+            <input
+              type="text"
+              name="author"
+              value={product.author}
+              onChange={handleChange}
+              className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Author"
               required
             />
           </div>
@@ -170,6 +190,20 @@ const AddProducts = () => {
           </motion.div>
         </form>
       </motion.div>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark" // You can change the theme if you want
+      />
     </div>
   );
 };

@@ -121,7 +121,7 @@ const ItemDetail = () => {
           <h1 className="text-2xl font-bold">{item.title}</h1>
           <h2 className="text-xl font-semibold">Category: {item.category}</h2>
           <p className="font-semibold">Quantity: {item.quantity}</p>
-          <p className="font-semibold">Price: ${item.price}</p>
+          <p className="font-semibold">Price: BDT {item.price}</p>
           <p className="font-semibold">Author: {item.author}</p>{" "}
           {/* Added author */}
           <p className="font-semibold">
