@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 import { motion } from "framer-motion";
 import Loading from "@/components/Loading/Loading";
@@ -25,6 +26,8 @@ interface BestAuthor {
 interface HalfYearlySale {
   month: string;
   totalSales: number;
+  productName?: string; // Add optional product name
+  authorName?: string; // Add optional author name
 }
 
 interface StatisticsData {
@@ -33,10 +36,23 @@ interface StatisticsData {
   halfYearlySales: HalfYearlySale[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black bg-opacity-80 text-white p-2 rounded-md shadow-lg">
+        <p className="font-semibold">{label}</p>
+        <p>{`Total Sales: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const Admin = () => {
   const authContext = useContext(AuthContext);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [loading, setLoading] = useState<boolean>(true);
   const [statisticsData, setStatisticsData] = useState<StatisticsData>({
     bestSellers: [],
     bestAuthors: [],
@@ -56,16 +72,15 @@ const Admin = () => {
           console.error("Error fetching admin status:", error);
         }
       }
-      setLoading(false); // Stop loading after admin check
+      setLoading(false);
     };
-
     checkAdminStatus();
   }, [authContext?.user]);
 
   useEffect(() => {
     const fetchStatisticsData = async () => {
       if (isAdmin) {
-        setLoading(true); // Start loading when fetching data
+        setLoading(true);
         try {
           const response = await fetch(
             "https://srs-publications-server.vercel.app/api/payments/statistics"
@@ -86,18 +101,19 @@ const Admin = () => {
               totalSales: item.totalSales,
             })),
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            halfYearlySales: data.halfYearlySales.map((item: any) => ({
+            halfYearlySales: data.bestSellers.map((item: any) => ({
               month: item.month,
               totalSales: item.totalSales,
+              productName: item.productName, // Ensure the product name is included
+              authorName: item.authorName, // Ensure the author name is included
             })),
           });
         } catch (error) {
           console.error("Error fetching statistics:", error);
         }
-        setLoading(false); // Stop loading after data fetch
+        setLoading(false);
       }
     };
-
     fetchStatisticsData();
   }, [isAdmin]);
 
@@ -130,18 +146,16 @@ const Admin = () => {
             className="bg-gray-800 rounded-lg shadow-lg p-4 h-full"
           >
             <h2 className="text-2xl font-semibold mb-4">Best Sellers</h2>
-            <BarChart
-              width={340}
-              height={250}
-              data={statisticsData.bestSellers}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="productName" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="totalSales" fill="#ff4d4d" />
-            </BarChart>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={statisticsData.bestSellers}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="productName" />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="totalSales" fill="#ff4d4d" />
+              </BarChart>
+            </ResponsiveContainer>
           </motion.div>
 
           <motion.div
@@ -149,37 +163,35 @@ const Admin = () => {
             className="bg-gray-800 rounded-lg shadow-lg p-4 h-full"
           >
             <h2 className="text-2xl font-semibold mb-4">Best Authors</h2>
-            <BarChart
-              width={340}
-              height={250}
-              data={statisticsData.bestAuthors}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="authorName" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="totalSales" fill="#4dff88" />
-            </BarChart>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={statisticsData.bestAuthors}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="authorName" />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="totalSales" fill="#4dff88" />
+              </BarChart>
+            </ResponsiveContainer>
           </motion.div>
 
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="bg-gray-800 rounded-lg shadow-lg p-4 h-full"
           >
-            <h2 className="text-2xl font-semibold mb-4">Half-Yearly Sales</h2>
-            <BarChart
-              width={340}
-              height={250}
-              data={statisticsData.halfYearlySales}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="totalSales" fill="#ffd700" />
-            </BarChart>
+            <h2 className="text-2xl font-semibold mb-4">
+              Half-Yearly Sales (July - December)
+            </h2>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={statisticsData.bestSellers}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="productName" />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="totalSales" fill="#ff4d" />
+              </BarChart>
+            </ResponsiveContainer>
           </motion.div>
         </div>
       ) : (

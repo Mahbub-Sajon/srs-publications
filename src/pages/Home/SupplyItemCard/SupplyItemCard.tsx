@@ -81,9 +81,31 @@ const SupplyItemCard = (props: { item: TSupplyItemCard }) => {
       whileInView={{ opacity: 1, y: 0 }} // Animate when in view
       transition={{ duration: 0.5 }} // Duration of the animation
       viewport={{ once: false }} // Enable reanimation when scrolling back
-      className="rounded-md text-center border-2 p-2 bg-[#f1efef] shadow-lg flex flex-col h-full" // Flex column to make button at the bottom
+      className="rounded-md text-center border-2 p-2 bg-[#f1efef] shadow-lg flex flex-col h-full relative" // Flex column to make button at the bottom
     >
-      <img className="w-full h-48 object-cover" src={image} alt={title} />
+      {/* Discount Toast */}
+      <motion.div
+        className="absolute top-2 right-2 bg-red-500 text-white text-sm font-semibold p-2 rounded-md flex items-center"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{
+          opacity: 1,
+          y: [0, -5, 0], // Move less for a subtler effect
+          backgroundColor: ["#FF6B6B", "#FF3D3D", "#FF6B6B"],
+        }}
+        transition={{
+          duration: 2, // Slow down the animation duration
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "reverse", // Reverse the animation for a smoother effect
+        }}
+      >
+        <span className="text-2xl mr-1">🔥</span>{" "}
+        {/* Fire emoji for excitement */}
+        <span className="text-lg font-extrabold">15% Discount!</span>{" "}
+        {/* Increased font weight */}
+        <span className="text-2xl ml-1">💰</span> {/* Money bag emoji */}
+      </motion.div>
+      <img className="w-full h-48 object-cover mt-8" src={image} alt={title} />
       <h1 className="text-2xl font-bold">{title}</h1>
       <h2 className="text-lg font-medium italic">Author: {author}</h2>{" "}
       {/* Display author */}
