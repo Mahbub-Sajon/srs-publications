@@ -143,7 +143,7 @@ const Admin = () => {
         <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-800 rounded-lg shadow-lg p-4 h-full"
+            className="bg-gray-800 rounded-lg shadow-lg p-4 h-full flex flex-col justify-between"
           >
             <h2 className="text-2xl font-semibold mb-4">Best Sellers</h2>
             <ResponsiveContainer width="100%" height={250}>
@@ -151,8 +151,22 @@ const Admin = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="productName" />
                 <YAxis />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Tooltip
+                  content={({ active, payload }) =>
+                    active && payload && payload.length ? (
+                      <div className="bg-black text-white p-2 rounded-md">
+                        <p className="font-semibold">
+                          {payload[0].payload.productName}
+                        </p>
+                      </div>
+                    ) : null
+                  }
+                />
+                <Legend
+                  formatter={() => (
+                    <span style={{ color: "#ff4d4d" }}>Best Sellers</span>
+                  )}
+                />
                 <Bar dataKey="totalSales" fill="#ff4d4d" />
               </BarChart>
             </ResponsiveContainer>
@@ -160,7 +174,7 @@ const Admin = () => {
 
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-800 rounded-lg shadow-lg p-4 h-full"
+            className="bg-gray-800 rounded-lg shadow-lg p-4 h-full flex flex-col justify-between"
           >
             <h2 className="text-2xl font-semibold mb-4">Best Authors</h2>
             <ResponsiveContainer width="100%" height={250}>
@@ -168,8 +182,22 @@ const Admin = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="authorName" />
                 <YAxis />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Tooltip
+                  content={({ active, payload }) =>
+                    active && payload && payload.length ? (
+                      <div className="bg-black text-white p-2 rounded-md">
+                        <p className="font-semibold">
+                          {payload[0].payload.authorName}
+                        </p>
+                      </div>
+                    ) : null
+                  }
+                />
+                <Legend
+                  formatter={() => (
+                    <span style={{ color: "#4dff88" }}>Best Authors</span>
+                  )}
+                />
                 <Bar dataKey="totalSales" fill="#4dff88" />
               </BarChart>
             </ResponsiveContainer>
@@ -188,7 +216,11 @@ const Admin = () => {
                 <XAxis dataKey="productName" />
                 <YAxis />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Legend
+                  formatter={() => (
+                    <span style={{ color: "#ff4d" }}>Half Yearly Sales</span>
+                  )}
+                />
                 <Bar dataKey="totalSales" fill="#ff4d" />
               </BarChart>
             </ResponsiveContainer>
