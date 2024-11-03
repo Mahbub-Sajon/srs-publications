@@ -39,8 +39,8 @@ const PlaceOrderModal = ({
   const { user }: any = useContext(AuthContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [quantity, setQuantity] = useState(cartItem.item.quantity); // Track quantity state
-  const [stockQuantity, setStockQuantity] = useState<number | null>(null); // Stock quantity
+  const [quantity, setQuantity] = useState(cartItem.item.quantity);
+  const [stockQuantity, setStockQuantity] = useState<number | null>(null);
   const originalPrice = cartItem.item.price * cartItem.item.quantity;
   const [totalPrice, setTotalPrice] = useState(originalPrice);
   const discountedPrice = totalPrice * 0.85;
@@ -54,7 +54,7 @@ const PlaceOrderModal = ({
             `https://srs-publications-server.vercel.app/api/products/${cartItem.item._id}`
           );
           const productData = response.data;
-          setStockQuantity(productData.quantity); // Set stock quantity from backend
+          setStockQuantity(productData.quantity);
         } catch (error) {
           console.error("Error fetching stock quantity:", error);
         }
@@ -153,7 +153,7 @@ const PlaceOrderModal = ({
               <Button
                 variant="outline"
                 onClick={() => handleQuantityChange("increase")}
-                disabled={stockQuantity !== null && quantity >= stockQuantity} // Disable if quantity exceeds stock
+                disabled={stockQuantity !== null && quantity >= stockQuantity}
               >
                 +
               </Button>
@@ -171,12 +171,10 @@ const PlaceOrderModal = ({
               BDT {originalPrice.toFixed(2)}
             </p>
           </div>
-
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label>Author </Label>
+            <Label>Author</Label>
             <p className="col-span-3">{cartItem.item.author}</p>
           </div>
-
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>Discounted Price</Label>
             <p className="col-span-3">

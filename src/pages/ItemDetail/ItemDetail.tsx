@@ -5,23 +5,23 @@ import { AuthContext } from "@/providers/AuthProvider"; // Import AuthContext
 import Loading from "@/components/Loading/Loading";
 
 type Item = {
-  _id: string; // Now treating _id as a string
+  _id: string;
   image: string;
   title: string;
   category: string;
-  quantity: number; // Changed to number
+  quantity: number;
   description: string;
   price: number;
-  author: string; // Added author field
+  author: string;
 };
 
 const ItemDetail = () => {
-  const { _id } = useParams<{ _id: string }>(); // Extract the ID parameter from the URL
+  const { _id } = useParams<{ _id: string }>();
   const [item, setItem] = useState<Item | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [loading, setLoading] = useState<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user, addToCart }: any = useContext(AuthContext); // Access user and addToCart from AuthContext
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,9 +33,8 @@ const ItemDetail = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result: Item[] = await response.json();
-
         if (_id) {
-          const selectedItem = result.find((item) => item._id === _id); // Compare the string _id directly
+          const selectedItem = result.find((item) => item._id === _id);
           if (selectedItem) {
             setItem(selectedItem);
           } else {
@@ -45,7 +44,7 @@ const ItemDetail = () => {
       } catch (error) {
         console.log("Error fetching data:", error);
       } finally {
-        setLoading(false); // Set loading to false after data fetch is complete
+        setLoading(false);
       }
     };
 
@@ -54,17 +53,16 @@ const ItemDetail = () => {
 
   const handleAddToCart = async () => {
     if (user && item) {
-      // Add the item to the cart
+      // Add the item to the cart context
       addToCart(item);
-      console.log("Item added to cart:", item);
 
-      // Prepare data to send to the backend, including image and price
+      // Prepare data to send to the backend
       const cartItemData = {
-        userId: user.uid, // Assuming you have user ID from the auth context
+        userId: user.uid,
         item: {
           _id: item._id,
           title: item.title,
-          quantity: item.quantity,
+          quantity: 1, // Assuming you add one item at a time
           image: item.image,
           price: item.price,
         },
@@ -102,7 +100,6 @@ const ItemDetail = () => {
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <Loading />
-          {/* Optionally add a spinner or loading animation here */}
         </div>
       </div>
     );
@@ -122,8 +119,7 @@ const ItemDetail = () => {
           <h2 className="text-xl font-semibold">Category: {item.category}</h2>
           <p className="font-semibold">Quantity: {item.quantity}</p>
           <p className="font-semibold">Price: BDT {item.price}</p>
-          <p className="font-semibold">Author: {item.author}</p>{" "}
-          {/* Added author */}
+          <p className="font-semibold">Author: {item.author}</p>
           <p className="font-semibold">
             Description: <br /> {item.description}
           </p>

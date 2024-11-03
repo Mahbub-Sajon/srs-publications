@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "@/providers/AuthProvider";
+import { AuthContext } from "@/providers/AuthProvider"; // Ensure your path is correct
 import { motion } from "framer-motion";
 import axios from "axios";
 import PlaceOrderModal from "../ItemDetail/PlaceOrderModal";
@@ -22,29 +22,56 @@ interface CartItem {
 }
 
 const Cart = () => {
+  const authContext = useContext(AuthContext);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { user }: any = useContext(AuthContext);
+  const { user, setCartItems }: any = authContext || {
+    user: null,
+    setCartItems: null,
+  }; // Provide default values
   const [userCartItems, setUserCartItems] = useState<CartItem[]>([]);
   const [selectedCartItem, setSelectedCartItem] = useState<CartItem | null>(
     null
   );
-  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchCartItems = async () => {
       if (user) {
-        setLoading(true); // Set loading to true before fetching
+        setLoading(true);
+        console.log("Fetching cart items for user:", user.uid); // Debug log
         try {
-          const response = await axios.get<CartItem[]>(
-            `https://srs-publications-server.vercel.app/cart/${user.uid}`
+          const response = await axios.get<{
+            message: string;
+            items: CartItem[];
+          }>(`https://srs-publications-server.vercel.app/cart/${user.uid}`);
+          console.log("Response data:", response.data); // Debug log
+
+          // Aggregate items by product ID
+          const aggregatedItems = response.data.items.reduce(
+            (acc, cartItem) => {
+              const existingItem = acc.find(
+                (item) => item.item._id === cartItem.item._id
+              );
+              if (existingItem) {
+                existingItem.item.quantity += cartItem.item.quantity; // Sum quantities
+              } else {
+                acc.push({ ...cartItem }); // Add new item
+              }
+              return acc;
+            },
+            [] as CartItem[]
           );
-          setUserCartItems(response.data);
+
+          setUserCartItems(aggregatedItems); // Set aggregated items
         } catch (error) {
           console.log("Error fetching cart items:", error);
         } finally {
-          setLoading(false); // Set loading to false after data is fetched
+          setLoading(false);
         }
+      } else {
+        console.log("No user is authenticated."); // Debug log
+        setLoading(false);
       }
     };
 
@@ -68,6 +95,13 @@ const Cart = () => {
           `https://srs-publications-server.vercel.app/cart/${user.uid}`
         );
         setUserCartItems([]); // Clear cart state after successful deletion
+
+        // Ensure setCartItems is a function before calling
+        if (typeof setCartItems === "function") {
+          setCartItems([]); // Update context state as well
+        } else {
+          console.error("setCartItems is not a function");
+        }
       } catch (error) {
         console.error("Error clearing cart:", error);
       }
@@ -87,7 +121,6 @@ const Cart = () => {
         </Button>
       </div>
 
-      {/* Show loading indicator */}
       {loading ? (
         <Loading />
       ) : (
@@ -109,7 +142,6 @@ const Cart = () => {
                   {cartItem.item.title}
                 </h2>
                 <h3 className="text-xl font-semibold mt-2">
-                  {" "}
                   Author: {cartItem.item.author}
                 </h3>
                 <p className="text-md text-gray-600">
@@ -133,7 +165,6 @@ const Cart = () => {
         </div>
       )}
 
-      {/* Conditionally render the modal */}
       {selectedCartItem && (
         <PlaceOrderModal
           cartItem={selectedCartItem}

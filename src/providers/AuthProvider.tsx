@@ -1,4 +1,11 @@
-import { createContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useMemo,
+  useCallback,
+} from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -42,55 +49,71 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<Item[]>([]); // Cart items state
 
-  // Create a new user with email and password
-  const createUser = async (email: string, password: string): Promise<User> => {
-    setLoading(true);
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      setLoading(false); // Stop loading after creating the user
-      return userCredential.user; // Return the user object
-    } catch (error) {
-      setLoading(false); // Stop loading in case of error
-      throw error; // Rethrow the error for error handling
-    }
+  // Handle errors globally
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleError = (error: any) => {
+    console.error("Authentication error:", error);
+    // Additional error handling logic can be added here (e.g., toast notifications)
   };
+
+  // Create a new user with email and password
+  const createUser = useCallback(
+    async (email: string, password: string): Promise<User> => {
+      setLoading(true);
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        return userCredential.user; // Return the user object
+      } catch (error) {
+        handleError(error);
+        throw error; // Rethrow the error for error handling
+      } finally {
+        setLoading(false); // Ensure loading is stopped
+      }
+    },
+    []
+  ); // Empty dependencies since it doesn't use props or state
 
   // Sign in user with email and password
-  const signIn = async (email: string, password: string): Promise<User> => {
-    setLoading(true);
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      setLoading(false); // Stop loading after signing in
-      return userCredential.user; // Return the user object
-    } catch (error) {
-      setLoading(false); // Stop loading in case of error
-      throw error; // Rethrow the error for error handling
-    }
-  };
+  const signIn = useCallback(
+    async (email: string, password: string): Promise<User> => {
+      setLoading(true);
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        return userCredential.user; // Return the user object
+      } catch (error) {
+        handleError(error);
+        throw error; // Rethrow the error for error handling
+      } finally {
+        setLoading(false); // Ensure loading is stopped
+      }
+    },
+    []
+  ); // Empty dependencies since it doesn't use props or state
 
   // Log out the user and clear cart items
-  const logOut = async () => {
+  const logOut = useCallback(async () => {
     setLoading(true);
     try {
       await signOut(auth);
       setCartItems([]); // Clear the cart when the user logs out
-      setLoading(false); // Set loading to false after logout
     } catch (error) {
-      setLoading(false); // Stop loading in case of error
+      handleError(error);
       throw error; // Rethrow the error for error handling
+    } finally {
+      setLoading(false); // Ensure loading is stopped
     }
-  };
+  }, []); // Empty dependencies since it doesn't use props or state
 
   // Add item to the cart
-  const addToCart = (item: Item) => {
+  const addToCart = useCallback((item: Item) => {
     setCartItems((prevCartItems) => {
       const existingItem = prevCartItems.find(
         (cartItem) => cartItem._id === item._id
@@ -107,7 +130,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         return [...prevCartItems, item];
       }
     });
-  };
+  }, []); // Empty dependencies since it doesn't use props or state
 
   // Observe authentication state changes
   useEffect(() => {
@@ -120,16 +143,19 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     };
   }, []);
 
-  // Context value with the auth info
-  const authInfo: AuthContextType = {
-    user,
-    loading,
-    cartItems,
-    addToCart,
-    createUser,
-    signIn,
-    logOut, // Provide logOut function
-  };
+  // Memoize context value
+  const authInfo = useMemo(
+    () => ({
+      user,
+      loading,
+      cartItems,
+      addToCart,
+      createUser,
+      signIn,
+      logOut,
+    }),
+    [user, loading, cartItems, addToCart, createUser, signIn, logOut]
+  ); // Include dependencies
 
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
