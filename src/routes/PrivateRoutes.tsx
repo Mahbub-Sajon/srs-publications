@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading/Loading";
 import { AuthContext } from "@/providers/AuthProvider";
 import { useContext, ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
@@ -13,7 +14,7 @@ const PrivateRoutes = ({ children }: PrivateRoutesProps) => {
   const loading = authContext?.loading; // Safely access loading
 
   if (loading) {
-    return <h1>Loading...</h1>; // Render loading state if loading
+    return <Loading />; // Render loading state if loading
   }
 
   if (user) {

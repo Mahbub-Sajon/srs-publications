@@ -12,7 +12,7 @@ const Sidebar = () => {
         // Ensure authContext and user are available
         try {
           const response = await fetch(
-            `https://srs-publications-server.vercel.app/api/users/admin/${authContext.user.email}`
+            `http://localhost:5000/api/users/admin/${authContext.user.email}`
           ); // Your API endpoint
           const data = await response.json();
           setIsAdmin(data.isAdmin);
@@ -64,6 +64,12 @@ const Sidebar = () => {
                 className="block px-4 py-2 rounded hover:bg-gray-700"
               >
                 All Users
+              </Link>
+              <Link
+                to="/dashboard/unsold-books"
+                className="block px-4 py-2 rounded hover:bg-gray-700"
+              >
+                Unsold Books
               </Link>
             </>
           )}

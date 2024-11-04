@@ -16,6 +16,7 @@ import AllUsers from "@/pages/dashboard/AllUsers";
 import AddProducts from "@/pages/dashboard/Admin/AddProducts";
 import Profile from "@/pages/dashboard/User/Profile";
 import MyOrders from "@/pages/dashboard/User/MyOrders";
+import UnsoldBooks from "@/pages/dashboard/Admin/UnsoldBooks";
 
 const router = createBrowserRouter([
   {
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: "my-orders",
         element: <MyOrders />,
+      },
+      {
+        path: "unsold-books",
+        element: <UnsoldBooks />,
       },
     ],
   },

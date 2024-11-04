@@ -35,8 +35,7 @@ const PlaceOrderModal = ({
   isOpen,
   onClose,
 }: PlaceOrderModalProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { user }: any = useContext(AuthContext);
+  const { user } = useContext(AuthContext) || {};
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [quantity, setQuantity] = useState(cartItem.item.quantity);
@@ -51,7 +50,7 @@ const PlaceOrderModal = ({
       const fetchStockQuantity = async () => {
         try {
           const response = await axios.get(
-            `https://srs-publications-server.vercel.app/api/products/${cartItem.item._id}`
+            `http://localhost:5000/api/products/${cartItem.item._id}`
           );
           const productData = response.data;
           setStockQuantity(productData.quantity);
@@ -72,12 +71,39 @@ const PlaceOrderModal = ({
     }
   };
 
+  // Recalculate total price and update remaining stock dynamically
   useEffect(() => {
     const newTotalPrice = quantity * cartItem.item.price;
     setTotalPrice(newTotalPrice);
   }, [quantity, cartItem.item.price]);
 
+  // Calculate remaining stock
+  const remainingStock =
+    stockQuantity !== null ? stockQuantity - quantity : null;
+
+  // Function to update stock quantity in the database
+  const updateProductStock = async () => {
+    if (remainingStock !== null) {
+      try {
+        await axios.patch(
+          `http://localhost:5000/api/products/${cartItem.item._id}`,
+          {
+            quantity: remainingStock,
+          }
+        );
+        console.log("Stock updated successfully");
+      } catch (error) {
+        console.error("Error updating stock quantity:", error);
+      }
+    }
+  };
+
   const handleSubmit = async () => {
+    if (!user) {
+      alert("User is not logged in.");
+      return;
+    }
+
     if (!address || !phone) {
       alert("Please fill in all the details.");
       return;
@@ -85,12 +111,12 @@ const PlaceOrderModal = ({
 
     try {
       const userResponse = await axios.get(
-        `https://srs-publications-server.vercel.app/api/users/${user.email}`
+        `http://localhost:5000/api/users/${user.email}`
       );
       const userData = userResponse.data;
 
       const orderData = {
-        userId: user.uid,
+        userId: user.uid, // user is now checked to be defined
         userName: userData.name,
         email: userData.email,
         items: [
@@ -108,18 +134,19 @@ const PlaceOrderModal = ({
         createdAt: new Date(),
       };
 
-      await axios.post(
-        "https://srs-publications-server.vercel.app/api/orders",
-        orderData
-      );
+      // Submit the order data
+      await axios.post("http://localhost:5000/api/orders", orderData);
 
+      // Initiate payment process
       const paymentResponse = await axios.post(
-        "https://srs-publications-server.vercel.app/create-payment",
+        "http://localhost:5000/create-payment",
         { orderData }
       );
 
       const paymentUrl = paymentResponse.data.GatewayPageUrl;
       if (paymentUrl) {
+        // Update stock only if payment URL is received (assuming payment initiates successfully)
+        await updateProductStock();
         window.location.href = paymentUrl;
       } else {
         console.error("Payment URL not found");
@@ -153,7 +180,7 @@ const PlaceOrderModal = ({
               <Button
                 variant="outline"
                 onClick={() => handleQuantityChange("increase")}
-                disabled={stockQuantity !== null && quantity >= stockQuantity}
+                disabled={remainingStock !== null && remainingStock <= 0}
               >
                 +
               </Button>
@@ -162,7 +189,7 @@ const PlaceOrderModal = ({
           </div>
           {stockQuantity !== null && (
             <div className="text-sm text-gray-500">
-              Available Stock: {stockQuantity}
+              Available Stock: {remainingStock}
             </div>
           )}
           <div className="grid grid-cols-4 items-center gap-4">

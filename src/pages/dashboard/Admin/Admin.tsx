@@ -64,7 +64,7 @@ const Admin = () => {
       if (authContext?.user) {
         try {
           const response = await fetch(
-            `https://srs-publications-server.vercel.app/api/users/admin/${authContext.user.email}`
+            `http://localhost:5000/api/users/admin/${authContext.user.email}`
           );
           const data = await response.json();
           setIsAdmin(data.isAdmin);
@@ -83,7 +83,7 @@ const Admin = () => {
         setLoading(true);
         try {
           const response = await fetch(
-            "https://srs-publications-server.vercel.app/api/payments/statistics"
+            "http://localhost:5000/api/payments/statistics"
           );
           if (!response.ok) {
             throw new Error("Network response was not ok");

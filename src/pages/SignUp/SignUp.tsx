@@ -37,7 +37,7 @@ const SignUp = () => {
       console.log(loggedUser);
 
       // Save user data to the database
-      await axios.post("https://srs-publications-server.vercel.app/api/users", {
+      await axios.post("http://localhost:5000/api/users", {
         name: data.name,
         email: data.email,
       });

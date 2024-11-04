@@ -18,9 +18,7 @@ const AllUsers: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(
-        "https://srs-publications-server.vercel.app/api/users"
-      );
+      const response = await axios.get("http://localhost:5000/api/users");
       const data = response.data;
 
       if (Array.isArray(data)) {
@@ -37,9 +35,7 @@ const AllUsers: React.FC = () => {
 
   const makeAdmin = async (id: string) => {
     try {
-      await axios.patch(
-        `https://srs-publications-server.vercel.app/users/admin/${id}`
-      );
+      await axios.patch(`http://localhost:5000/users/admin/${id}`);
       toast.success("User made admin successfully"); // Show success toast
       fetchUsers();
     } catch (error) {
@@ -51,9 +47,7 @@ const AllUsers: React.FC = () => {
   const deleteUser = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(
-          `https://srs-publications-server.vercel.app/api/users/${id}`
-        );
+        await axios.delete(`http://localhost:5000/api/users/${id}`);
         toast.success("User deleted successfully"); // Show success toast
         fetchUsers();
       } catch (error) {

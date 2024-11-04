@@ -22,7 +22,7 @@ const MyOrders = () => {
       if (authContext?.user) {
         try {
           const response = await fetch(
-            `https://srs-publications-server.vercel.app/api/payments?email=${authContext.user.email}`
+            `http://localhost:5000/api/payments?email=${authContext.user.email}`
           ); // Adjust the endpoint as necessary
           if (!response.ok) {
             throw new Error("Failed to fetch orders");

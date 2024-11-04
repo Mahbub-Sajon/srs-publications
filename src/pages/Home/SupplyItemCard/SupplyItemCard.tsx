@@ -49,16 +49,13 @@ const SupplyItemCard = (props: { item: TSupplyItemCard }) => {
 
       // Send the cart item data to the backend
       try {
-        const response = await fetch(
-          "https://srs-publications-server.vercel.app/api/cart",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(cartItemData),
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartItemData),
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

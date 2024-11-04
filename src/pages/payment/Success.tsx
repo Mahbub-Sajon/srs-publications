@@ -23,7 +23,7 @@ const Success = () => {
     const fetchPaymentData = async () => {
       try {
         const response = await fetch(
-          `https://srs-publications-server.vercel.app/api/payments/transaction/${transactionId}`
+          `http://localhost:5000/api/payments/transaction/${transactionId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch payment data");
