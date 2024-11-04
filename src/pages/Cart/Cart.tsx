@@ -44,7 +44,7 @@ const Cart = () => {
           const response = await axios.get<{
             message: string;
             items: CartItem[];
-          }>(`http://localhost:5000/cart/${user.uid}`);
+          }>(`https://srs-publications-server.vercel.app/cart/${user.uid}`);
           console.log("Response data:", response.data); // Debug log
 
           // Aggregate items by product ID
@@ -91,7 +91,9 @@ const Cart = () => {
   const handleClearCart = async () => {
     if (user) {
       try {
-        await axios.delete(`http://localhost:5000/cart/${user.uid}`);
+        await axios.delete(
+          `https://srs-publications-server.vercel.app/cart/${user.uid}`
+        );
         setUserCartItems([]); // Clear cart state after successful deletion
 
         // Ensure setCartItems is a function before calling

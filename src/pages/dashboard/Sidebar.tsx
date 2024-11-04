@@ -12,7 +12,7 @@ const Sidebar = () => {
         // Ensure authContext and user are available
         try {
           const response = await fetch(
-            `http://localhost:5000/api/users/admin/${authContext.user.email}`
+            `https://srs-publications-server.vercel.app/api/users/admin/${authContext.user.email}`
           ); // Your API endpoint
           const data = await response.json();
           setIsAdmin(data.isAdmin);

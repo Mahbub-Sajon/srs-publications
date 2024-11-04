@@ -50,7 +50,7 @@ const PlaceOrderModal = ({
       const fetchStockQuantity = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/products/${cartItem.item._id}`
+            `https://srs-publications-server.vercel.app/api/products/${cartItem.item._id}`
           );
           const productData = response.data;
           setStockQuantity(productData.quantity);
@@ -86,7 +86,7 @@ const PlaceOrderModal = ({
     if (remainingStock !== null) {
       try {
         await axios.patch(
-          `http://localhost:5000/api/products/${cartItem.item._id}`,
+          `https://srs-publications-server.vercel.app/api/products/${cartItem.item._id}`,
           {
             quantity: remainingStock,
           }
@@ -111,7 +111,7 @@ const PlaceOrderModal = ({
 
     try {
       const userResponse = await axios.get(
-        `http://localhost:5000/api/users/${user.email}`
+        `https://srs-publications-server.vercel.app/api/users/${user.email}`
       );
       const userData = userResponse.data;
 
@@ -135,11 +135,14 @@ const PlaceOrderModal = ({
       };
 
       // Submit the order data
-      await axios.post("http://localhost:5000/api/orders", orderData);
+      await axios.post(
+        "https://srs-publications-server.vercel.app/api/orders",
+        orderData
+      );
 
       // Initiate payment process
       const paymentResponse = await axios.post(
-        "http://localhost:5000/create-payment",
+        "https://srs-publications-server.vercel.app/create-payment",
         { orderData }
       );
 
