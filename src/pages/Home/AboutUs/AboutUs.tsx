@@ -71,12 +71,12 @@ const AboutUs = () => {
             className="mb-5 text-lg md:text-xl max-w-[80ch] text-black mx-auto md:mx-0"
             variants={introChildren}
           >
-            We are a dedicated team committed to alleviating hunger and
-            providing relief in critical situations across Bangladesh. Through
-            our food donation initiatives, we strive to support communities
-            affected by floods, natural disasters, pandemics, and other
-            challenges, ensuring that no one goes hungry during their time of
-            need.
+            SRS Publications is a Bangladeshi online bookstore dedicated to
+            providing readers with a diverse range of books. The platform offers
+            a user-friendly interface, secure online payments, and a wide
+            selection of books across various genres. By connecting authors and
+            readers, SRS Publications aims to foster a vibrant literary
+            community in Bangladesh.
           </motion.p>
         </motion.div>
         <motion.div
