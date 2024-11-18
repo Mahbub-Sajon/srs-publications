@@ -76,7 +76,7 @@ const AboutUs = () => {
             a user-friendly interface, secure online payments, and a wide
             selection of books across various genres. By connecting authors and
             readers, SRS Publications aims to foster a vibrant literary
-            community in Bangladesh.
+            community in all over the Bangladesh.
           </motion.p>
         </motion.div>
         <motion.div
